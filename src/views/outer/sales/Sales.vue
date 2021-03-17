@@ -1,9 +1,8 @@
 <template>
   <div class="table-container">
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span style="float: left">商品销售</span>
-        <el-row>
+      <div slot="header" class="header">
+        <el-tag style="fontSize: 16px">销售出库</el-tag>
           <el-button
             type="primary"
             class="operate-btn el-icon-plus"
@@ -11,7 +10,6 @@
             round
             >新增</el-button
           >
-        </el-row>
       </div>
       <div class="text item">
         <div class="data-table">
@@ -135,9 +133,10 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="操作" width="140">
+            <el-table-column label="操作" width="160">
               <template slot-scope="scope">
                 <el-button
+                style="margin-left:5px"
                   @click.native.prevent="saveRow(scope.$index)"
                   type="primary"
                   size="small"
@@ -215,8 +214,7 @@ export default {
           signer:'',
           outDate: "",
           notes: "",
-          store: "",
-          operator: "admin"
+          store: ""
         }
       ]
     };
@@ -249,8 +247,7 @@ export default {
           signer:'',
           outDate: "",
           notes: "",
-          store: "",
-          operator: "admin"
+          store: ""
       }
       this.tableData.push(singleObj);
     },
@@ -264,7 +261,11 @@ export default {
         }
       }
 
-      outerSalesApi.salesPost(tmpObj).then((res) => {
+      let operator = localStorage.getItem('uname')
+      outerSalesApi.salesPost({
+        operator:operator,
+        data: tmpObj
+      }).then((res) => {
           console.log(res);
         if (res.status == 200) {
           if (res.status == 200) {
@@ -280,20 +281,22 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.el-table td .cell {
-  padding: 2px;
-  .el-input {
-    width: 100%;
-    height: 100%;
-  }
-}
-</style>
 <style lang="scss" scoped>
 .table-container {
   height: 100%;
   background-color: #f0f2f5;
 
+  .el-input {
+    width: 100%;
+  }
+
+.header {
+  text-align: left;
+  .el-button {
+    float: right;
+    margin-top: -5px;
+  }
+}
   //el-card样式
   .text {
     font-size: 14px;
@@ -303,15 +306,6 @@ export default {
     margin-bottom: 18px;
   }
 
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both;
-  }
-
   .box-card {
     width: 100%;
   }
@@ -319,7 +313,6 @@ export default {
   .data-table {
     width: 100%;
     padding: 10px;
-    margin-top: 20px;
     background-color: #fff;
 
     .table {
@@ -338,15 +331,6 @@ export default {
         padding: 0px;
       }
     }
-  }
-
-  .operate-btn {
-    float: right;
-    width: 100px;
-    height: 50px;
-    font-size: 16px;
-    margin-right: 50px;
-    vertical-align: middle;
   }
 }
 </style>

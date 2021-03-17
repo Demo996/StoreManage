@@ -7,9 +7,11 @@ Vue.config.productionTip = false
 // 配置 混入
 import '@/utils/mixin.js'
 import '@/utils/filters.js'
-// import '@/utils/bootstrap-table-export.min.js'
-// import '@/utils/bootstrap-table.min.js'
-// import '@/utils/tableExport.js'
+
+// import '~@/assets/css/reset.css'
+// import '~@/assets/css/transition.css'
+import './assets/css/global.scss'
+
 // 模块 网站动画 animated
 import animated from 'animate.css'
 Vue.use(animated)

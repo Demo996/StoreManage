@@ -155,10 +155,11 @@
     </el-dialog>
     <div class="text item">
       <el-table
-        :data="tableData">
+        :data="tableData"
         size="medium"
         border
         stripe
+        :row-class-name="hover_style"
         max-height="700"
         style="width: 100%"
       >
@@ -281,8 +282,14 @@ export default {
     },
   },
   methods: {
+        hover_style({ row, rowIndex }) {
+      if (rowIndex < 0) {
+        return;
+      } else {
+        return "hover-style";
+      }
+    },
     submit() {
-      
       if(!this.backType)  {
         this.$message.error("请选择购退方式")
         return
@@ -372,10 +379,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-pagination {
-  text-align: left;
-  margin-top: 10px;
-}
 .el-card {
   width: 100%;
   height: 100%;
@@ -407,15 +410,6 @@ export default {
     height: 100%;
     height: 100%;
     margin-bottom: 18px;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both;
   }
 }
 </style>

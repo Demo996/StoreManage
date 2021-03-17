@@ -68,7 +68,7 @@
               width="50"
             >
             </el-table-column>
-            <el-table-column label="申请单编号" prop="申请单编号">
+            <el-table-column label="申请单编号" prop="申请单编号" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="入库总数" prop="入库总数">
             </el-table-column>
@@ -82,7 +82,7 @@
             <el-table-column label="申请日期" prop="申请日期">
             </el-table-column>
             <el-table-column label="采购人" prop="采购人"> </el-table-column>
-            <el-table-column label="备注" prop="备注"> </el-table-column>
+            <el-table-column label="备注" prop="备注" show-overflow-tooltip> </el-table-column>
             <el-table-column label="操作员" prop="操作员"> </el-table-column>
           </el-table>
           <!-- 分页 -->
@@ -116,16 +116,16 @@
               width="50"
             >
             </el-table-column>
-            <el-table-column label="申请单编号" prop="申请单编号">
+            <el-table-column label="申请单编号" prop="申请单编号" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="产品/设备编码" prop="产品/设备编码">
+            <el-table-column label="产品/设备编码" prop="产品/设备编码" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="产品/设备名称" prop="产品/设备名称">
+            <el-table-column label="产品/设备名称" prop="产品/设备名称" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="类型" prop="类型"> </el-table-column>
-            <el-table-column label="型号" prop="型号"> </el-table-column>
-            <el-table-column label="规格" prop="规格"> </el-table-column>
-            <el-table-column label="颜色/形状" prop="颜色/形状">
+            <el-table-column label="类型" prop="类型" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="型号" prop="型号" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="规格" prop="规格" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="颜色/形状" prop="颜色/形状" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="规格" prop="规格"> </el-table-column>
             <el-table-column label="单位" prop="单位"> </el-table-column>
@@ -151,8 +151,8 @@
             </el-table-column>
             <el-table-column label="采购日期" prop="采购日期">
             </el-table-column>
-            <el-table-column label="用途" prop="用途"> </el-table-column>
-            <el-table-column label="备注" prop="备注"> </el-table-column>
+            <el-table-column label="用途" prop="用途" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="备注" prop="备注" show-overflow-tooltip> </el-table-column>
             <el-table-column label="入库员" prop="入库员"> </el-table-column>
             <el-table-column label="入库日期" prop="入库日期">
             </el-table-column>
@@ -289,25 +289,8 @@ export default {
 };
 </script>
 
-// 表格当前行高亮
-<style lang="css">
-.el-table .hover-style:hover > td {
-  background: rgb(192, 203, 236) !important;
-}
-</style>
 <style lang="scss" scoped>
 .search-form {
   margin-bottom: 10px;
-}
-
-// 分页
-.el-pagination {
-  width: 100%;
-  padding: 10px 0px;
-  background: #ebeef5;
-  text-align: right;
-  margin-top: 10px;
-  padding-right: 10px;
-  box-sizing: border-box;
 }
 </style>

@@ -185,7 +185,7 @@ export default {
       width: 100%;
       height: 50px;
       overflow: hidden;
-      margin-bottom: 30px;
+      margin-bottom: 15px;
       -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
       box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
       .l {
@@ -202,12 +202,14 @@ export default {
           padding: 0;
         }
         .btn:hover {
-          background: rgba(0, 0, 0, 0.025);
+          background: rgba(172, 83, 83, 0.025);
+          color: rgb(22, 172, 241);
           cursor: pointer;
         }
         .breadcrumb {
           width: auto;
           height: 50px;
+          padding: 0;
           line-height: 50px;
           background-color: #fff;
         }
@@ -235,7 +237,7 @@ export default {
     } // 内容
     .content {
       width: 96%;
-      height: 80%;
+      height: auto;
       min-height: 100px;
       margin: auto; // overflow-x: hidden;
       // background: yellow;

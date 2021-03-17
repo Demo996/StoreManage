@@ -1,11 +1,11 @@
 <template>
   <el-card class="box-card">
-    <div slot="header" class="clearfix">
-      <el-tag style="float: left">入库统计</el-tag>
+    <div slot="header" class="header">
+      <el-tag style="fontSize:16px">入库统计</el-tag>
     </div>
     <div class="text item">
       <el-card class="box-card">
-        <div slot="header" class="clearfix">
+        <div slot="header">
           <el-row class="search-form" :gutter="20">
             <el-col :span="4"
               ><div class="grid-content bg-purple">
@@ -19,7 +19,7 @@
                   </el-option>
                 </el-select></div
             ></el-col>
-            <el-col :span="4"
+            <el-col :span="4" :offset="1"
               ><div class="grid-content bg-purple">
                 <div class="block">
                   <el-date-picker
@@ -31,7 +31,7 @@
                   </el-date-picker>
                 </div></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="6" :offset="1"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备编号"
@@ -45,7 +45,7 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="6" :offset="2"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备名称"
@@ -71,14 +71,14 @@
               max-height="700"
             >
             </el-table-column>
-            <el-table-column label="产品/设备编码" prop="产品/设备编码">
+            <el-table-column label="产品/设备编码" prop="产品/设备编码" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="产品/设备名称" prop="产品/设备名称">
+            <el-table-column label="产品/设备名称" prop="产品/设备名称" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="类型" prop="类型"> </el-table-column>
-            <el-table-column label="型号" prop="型号"> </el-table-column>
-            <el-table-column label="规格" prop="规格"> </el-table-column>
-            <el-table-column label="颜色/形状" prop="颜色/形状">
+            <el-table-column label="类型" prop="类型" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="型号" prop="型号" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="规格" prop="规格" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="颜色/形状" prop="颜色/形状" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="单位" prop="单位" width="80"> </el-table-column>
             <el-table-column label="数量" prop="数量" width="80"> </el-table-column>
@@ -174,15 +174,13 @@ export default {
   },
 };
 </script>
-<style lang="css">
-.el-table .hover-style:hover > td {
-  background: rgb(192, 203, 236) !important;
-}
-</style>
 <style lang="scss" scoped>
-
 .box-card {
   width: 100%;
+
+  .header {
+    text-align: left;
+  }
   .el-select {
     float: left;
   }
@@ -193,19 +191,6 @@ export default {
 
   .item {
     margin-bottom: 18px;
-    .el-pagination {
-      margin-top: 20px;
-      float: left;
-    }
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both;
   }
 }
 </style>

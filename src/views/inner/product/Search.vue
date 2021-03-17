@@ -6,7 +6,7 @@
     <div class="text item">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <el-row class="search-form" :gutter="20">
+          <el-row class="search-form" :gutter="40">
             <el-col :span="4"
               ><div class="grid-content bg-purple">
                 <el-select v-model="currStore" placeholder="请选择仓库">
@@ -31,7 +31,7 @@
                   </el-date-picker>
                 </div></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="6"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备编号"
@@ -45,7 +45,7 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="6"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备名称"
@@ -76,14 +76,14 @@
               width="50"
             >
             </el-table-column>
-            <el-table-column label="产品/设备编码" prop="产品/设备编码">
+            <el-table-column label="产品/设备编码" prop="产品/设备编码" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="产品/设备名称" prop="产品/设备名称">
+            <el-table-column label="产品/设备名称" prop="产品/设备名称" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="类型" prop="类型"> </el-table-column>
-            <el-table-column label="型号" prop="型号"> </el-table-column>
-            <el-table-column label="规格" prop="规格"> </el-table-column>
-            <el-table-column label="颜色/形状" prop="颜色/形状">
+            <el-table-column label="类型" prop="类型" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="型号" prop="型号" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="规格" prop="规格" show-overflow-tooltip> </el-table-column>
+            <el-table-column label="颜色/形状" prop="颜色/形状" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="单位" prop="单位"> </el-table-column>
             <el-table-column label="数量" prop="数量"> </el-table-column>
@@ -93,7 +93,7 @@
             <el-table-column label="入库员" prop="入库员"> </el-table-column>
             <el-table-column label="入库日期" prop="入库日期">
             </el-table-column>
-            <el-table-column label="备注" prop="备注"> </el-table-column>
+            <el-table-column label="备注" prop="备注" show-overflow-tooltip> </el-table-column>
             <el-table-column label="操作员" prop="操作员"> </el-table-column>
           </el-table>
           <!-- 分页 -->

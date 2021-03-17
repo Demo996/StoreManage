@@ -10,7 +10,7 @@
       <div class="data-table">
         <el-table
           :data="tableData"
-          size="medium"
+          size="small"
           border
           style="width: 100%"
           highlight-current-row
@@ -84,7 +84,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="入库日期" width="140">
+          <el-table-column label="入库日期" width="160">
             <template scope="scope">
               <div class="block">
                 <el-date-picker
@@ -115,7 +115,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="140">
+          <el-table-column label="操作" width="160">
             <template slot-scope="scope">
               <el-button
                 style="margin-left: 5px"
@@ -222,18 +222,15 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.el-table {
-  thead .cell {
-    text-align: center;
-  }
-}
-</style>
 <style lang="scss" scoped>
 .el-card {
   //el-card样式
   width: 100%;
   text-align: left;
+
+  .el-input {
+    width: 100%;
+  }
 
   .header .el-button {
     float: right;

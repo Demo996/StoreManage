@@ -87,6 +87,7 @@
                   <el-date-picker
                     v-model.trim="applyDate"
                     type="date"
+                    value-format="yyyy-MM-dd"
                     placeholder="选择日期"
                   >
                   </el-date-picker>
@@ -150,6 +151,7 @@
             <el-table-column label="数量" width="80">
               <template scope="scope">
                 <el-input
+                  type="number"
                   v-model="scope.row.number"
                   @change="calcMoney(scope.$index)"
                 ></el-input>
@@ -158,6 +160,7 @@
             <el-table-column label="单价" width="80">
               <template scope="scope">
                 <el-input
+                type="number"
                   v-model="scope.row.price"
                   @change="calcMoney(scope.$index)"
                 ></el-input>
@@ -166,6 +169,7 @@
             <el-table-column label="运费" width="80">
               <template scope="scope">
                 <el-input
+                type="number"
                   v-model="scope.row.freight"
                   @change="calcMoney(scope.$index)"
                 ></el-input>
@@ -176,7 +180,7 @@
                 <el-input v-model="scope.row.total"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="票据类型" width="125">
+            <el-table-column label="票据类型" width="140">
               <template scope="scope">
                 <el-select v-model="scope.row.billType" placeholder="请选择">
                   <el-option
@@ -189,12 +193,13 @@
                 </el-select>
               </template>
             </el-table-column>
-            <el-table-column label="采购日期" width="140">
+            <el-table-column label="采购日期" width="160">
               <template scope="scope">
                 <div class="block">
                   <el-date-picker
                     v-model="scope.row.purchaseDate"
                     type="date"
+                    value-format="yyyy-MM-dd"
                     placeholder="选择日期"
                   >
                   </el-date-picker>
@@ -366,18 +371,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-//     .el-table td .cell {
-//     padding: 2px;
-//     .el-input {
-//         width: 100%;
-//         height: 100%;
-//     }
-// }
 
 .table-container {
 
   height: 100%;
   background-color: #f0f2f5;
+
+    .el-input {
+    width: 100%;
+  }
 
   //el-card样式
   .text {
@@ -386,15 +388,6 @@ export default {
 
   .item {
     margin-bottom: 18px;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both;
   }
 
   .box-card {
@@ -443,7 +436,6 @@ export default {
 
   .data-table {
     width: 100%;
-    padding: 10px;
     margin-top: 20px;
     background-color: #fff;
 

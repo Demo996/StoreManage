@@ -7,7 +7,6 @@
     <router-view/>
   </div>
 </template>
-
 <style>
 #app {
   width: 100%;

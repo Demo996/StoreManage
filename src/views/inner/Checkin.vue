@@ -1,9 +1,57 @@
 <template>
+<el-card class="box-card">
+  <div slot="header" class="header">
+        <el-tag style="fontSize:16px">入库审核</el-tag>
+  </div>
+  <div class="text item">
   <el-card class="box-card">
     <div slot="header" class="clearfix">
+                <el-row class="search-form" :gutter="40">
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <div class="block">
+                  <el-date-picker
+                    v-model="searchDate"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="选择申请日期"
+                  >
+                  </el-date-picker>
+                </div></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="申请单编号"
+                  v-model.trim="searchCode"
+                  clearable
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="initData"
+                  ></el-button>
+                </el-input></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="请输入申报人"
+                  v-model.trim="searchApplyMan"
+                  clearable
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="initData"
+                  ></el-button>
+                </el-input></div
+            ></el-col>
+          </el-row>
       <el-table
         key="1"
         :data="tableData"
+        :row-class-name="hover_style"
         size="medium"
         border
         stripe
@@ -17,9 +65,9 @@
           width="50"
         >
         </el-table-column>
-        <el-table-column label="申请单编号" prop="申请单编号">
+        <el-table-column label="申请单编号" prop="申请单编号" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="待审核总数" prop="待审核总数">
+        <el-table-column label="待审核总数" prop="待审核总数" show-overflow-tooltip>
         </el-table-column>
         <el-table-column label="应付金额" prop="应付金额"> </el-table-column>
         <el-table-column label="实付金额" prop="实付金额"> </el-table-column>
@@ -27,9 +75,19 @@
         <el-table-column label="使用部门" prop="使用部门"> </el-table-column>
         <el-table-column label="申请日期" prop="申请日期"> </el-table-column>
         <el-table-column label="采购人" prop="采购人"> </el-table-column>
-        <el-table-column label="备注" prop="备注"> </el-table-column>
+        <el-table-column label="备注" prop="备注" show-overflow-tooltip> </el-table-column>
         <el-table-column label="操作员" prop="操作员"> </el-table-column>
       </el-table>
+      <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pagenum"
+            :page-sizes="[5, 10, 20, 30]"
+            :page-size="pagesize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="pagetotal"
+          >
+          </el-pagination>
       <el-dialog
         title="审核界面"
         :visible.sync="dialogVisible"
@@ -157,6 +215,7 @@
       <el-table
         key="2"
         :data="tableChildData"
+        :row-class-name="hover_style"
         size="medium"
         border
         stripe
@@ -170,15 +229,15 @@
           width="50"
         >
         </el-table-column>
-        <el-table-column label="申请单编号" prop="申请单编号">
+        <el-table-column label="申请单编号" prop="申请单编号" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="产品/设备编码" prop="产品/设备编码">
+        <el-table-column label="产品/设备编码" prop="产品/设备编码" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="产品/设备名称" prop="产品/设备名称">
+        <el-table-column label="产品/设备名称" prop="产品/设备名称" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="类型" prop="类型"> </el-table-column>
-        <el-table-column label="型号" prop="型号"> </el-table-column>
-        <el-table-column label="规格" prop="规格"> </el-table-column>
+        <el-table-column label="类型" prop="类型" show-overflow-tooltip> </el-table-column>
+        <el-table-column label="型号" prop="型号" show-overflow-tooltip> </el-table-column>
+        <el-table-column label="规格" prop="规格" show-overflow-tooltip> </el-table-column>
         <el-table-column label="颜色/形状" prop="颜色/形状"> </el-table-column>
         <el-table-column label="规格" prop="规格"> </el-table-column>
         <el-table-column label="单位" prop="单位"> </el-table-column>
@@ -187,7 +246,7 @@
         <el-table-column label="运费" prop="运费" width="60"> </el-table-column>
         <el-table-column label="合计金额" prop="合计金额" width="60">
         </el-table-column>
-        <el-table-column label="票据类型" prop="票据类型"> </el-table-column>
+        <el-table-column label="票据类型" prop="票据类型" show-overflow-tooltip> </el-table-column>
         <el-table-column label="票据签收" width="70">
           <template slot-scope="scope">
             <el-switch
@@ -202,8 +261,8 @@
           </template>
         </el-table-column>
         <el-table-column label="采购日期" prop="采购日期"> </el-table-column>
-        <el-table-column label="用途" prop="用途"> </el-table-column>
-        <el-table-column label="备注" prop="备注"> </el-table-column>
+        <el-table-column label="用途" prop="用途" show-overflow-tooltip> </el-table-column>
+        <el-table-column label="备注" prop="备注" show-overflow-tooltip> </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="check(scope.row)"
@@ -212,8 +271,20 @@
           </template>
         </el-table-column>
       </el-table>
+                <el-pagination
+            @size-change="handleSizeChangeChild"
+            @current-change="handleCurrentChangeChild"
+            :current-page="pagenumChild"
+            :page-sizes="[5, 10, 20, 30]"
+            :page-size="pagesizeChild"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="pagetotalChild"
+          >
+          </el-pagination>
     </div>
   </el-card>
+  </div>
+</el-card>
 </template>
 
 <script>
@@ -241,12 +312,29 @@ export default {
       maxNum: 0, // 最大审核量
       currNum: 0, // 审核数量框中当前数量
       notes: "", // 审核不通过的备注信息
+      // 分页
+      pagenum: 1,
+      pagesize: 5,
+      pagetotal: 100,
+      pagenumChild: 1,
+      pagesizeChild: 4,
+      pagetotalChild: 100,
+      searchCode: '',
+      searchDate: '',
+      searchApplyMan: ''
     };
   },
   created() {
     this.initData();
   },
   methods: {
+     hover_style({ row, rowIndex }) {
+      if (rowIndex < 0) {
+        return;
+      } else {
+        return "hover-style";
+      }
+    },
     check(row, event, column) {
       // console.log(row);
       this.checkArr = row;
@@ -309,22 +397,60 @@ export default {
         })
         .catch((_) => {});
     },
+    // 切换每页条数
+    handleSizeChange(val) {
+      // console.log(`每页 ${val} 条`);
+      this.pagesize = val;
+      this.initData();
+    },
+    // 切换分页
+    handleCurrentChange(val) {
+      // console.log(`当前页: ${val}`);
+      this.pagenum = val;
+      this.initData();
+    },
+    // 切换每页条数
+    handleSizeChangeChild(val) {
+      this.pagesizeChild = val;
+      this.initChildData();
+    },
+    // 切换分页
+    handleCurrentChangeChild(val) {
+      this.pagenumChild = val;
+      this.initChildData();
+    },
     handle(row, event, column) {
       let code = row["申请单编号"];
       innerApi
         .postChild({
           devNumber: code,
+        pagenum: this.pagenumChild,
+        pagesize: this.pagesizeChild
         })
         .then((res) => {
-          this.tableChildData = res;
+          console.log(res);
+          this.tableChildData = res.data;
+          this.pagetotalChild = res.pagetotal
         });
     },
     initData() {
-      innerApi.get().then((res) => {
-        this.tableData = res;
+      innerApi.get({
+        pagenum: this.pagenum,
+        pagesize: this.pagesize,
+        searchCode: this.searchCode,
+        searchDate: this.searchDate,
+        searchApplyMan: this.searchApplyMan
+      }).then((res) => {       
+        this.tableData = res.data;
+        this.pagetotal = res.pagetotal
       });
-      innerApi.getChild({}).then((res) => {
-        this.tableChildData = res;
+      innerApi.getChild({
+        pagenum: this.pagenumChild,
+        pagesize: this.pagesizeChild
+      }).then((res) => {
+        console.log(res);
+        this.tableChildData = res.data;
+        this.pagetotalChild = res.pagetotal
       });
     },
   },
@@ -332,7 +458,9 @@ export default {
 </script>
 
 <style>
-
+.el-card__header {
+  padding: 10px;
+}
 </style>
 <style lang="scss" scoped>
 
@@ -340,13 +468,18 @@ export default {
   width: 100%;
   height: 100%;
 
+.header {
+  width: 30px;
+  text-align: left;
+}
+
   .el-dialog {
   width: 800px;
   height: 500px;
 }
 
   .el-row {
-    margin-top: 10px;
+    margin-bottom: 10px;
     .el-input {
       width: 60%;
     }
@@ -362,10 +495,6 @@ export default {
   .el-table {
     width: 100%;
     height: 100%;
-
-    tr:hover {
-      background-color: #64a6e7 !important;
-    }
   }
 
   .text {
@@ -376,15 +505,6 @@ export default {
     height: 100%;
     height: 100%;
     margin-bottom: 18px;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both;
   }
 }
 </style>

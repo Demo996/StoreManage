@@ -6,8 +6,8 @@
     <div class="text item">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <el-row class="search-form" :gutter="20">
-            <el-col :span="4"
+          <el-row class="search-form" :gutter="40">
+            <el-col :span="6"
               ><div class="grid-content bg-purple">
                 <el-select v-model="currStore" placeholder="请选择仓库">
                   <el-option
@@ -19,7 +19,7 @@
                   </el-option>
                 </el-select></div
             ></el-col>
-            <el-col :span="4"
+            <el-col :span="6"
               ><div class="grid-content bg-purple">
                 <div class="block">
                   <el-date-picker
@@ -31,7 +31,7 @@
                   </el-date-picker>
                 </div></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="6"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备编号"
@@ -45,7 +45,7 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="6"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备名称"
@@ -185,24 +185,8 @@ export default {
   }
 };
 </script>
-<style lang="css">
-.el-table .hover-style:hover > td {
-  background: rgb(192, 203, 236) !important;
-}
-</style>
 <style lang="scss" scoped>
 .header {
   text-align: left;
-  margin-bottom: 10px;
-}
-// 分页
-.el-pagination {
-  width: 100%;
-  padding: 10px 0px;
-  background: #ebeef5;
-  text-align: right;
-  margin-top: 10px;
-  padding-right: 10px;
-  box-sizing: border-box;
 }
 </style>
