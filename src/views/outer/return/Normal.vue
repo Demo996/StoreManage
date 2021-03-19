@@ -61,14 +61,14 @@
                 ></el-input>
               </template>
             </el-table-column>
-            
+
             <el-table-column label="退还人" width="80">
               <template scope="scope">
                 <el-input clearable v-model="scope.row.backMan"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="退还日期" width="140">
-            <template scope="scope">
+              <template scope="scope">
                 <div class="block">
                   <el-date-picker
                     v-model="scope.row.backDate"
@@ -191,14 +191,14 @@ export default {
           colorShape: "",
           unit: "",
           number: 0,
-          backMan: '',
+          backMan: "",
           backDate: "",
           inputMan: "",
           inputDate: "",
           notes: "",
-          store: ""
-        }
-      ]
+          store: "",
+        },
+      ],
     };
   },
   methods: {
@@ -206,22 +206,22 @@ export default {
       this.tableData.splice(index, 1);
     },
     addRow() {
-        let singleObj = {
-          devCode: "",
-          devName: "",
-          type: "",
-          model: "",
-          size: "",
-          colorShape: "",
-          unit: "",
-          number: 0,
-          backMan: '',
-          backDate: "",
-          inputMan: "",
-          inputDate: "",
-          notes: "",
-          store: ""
-      }
+      let singleObj = {
+        devCode: "",
+        devName: "",
+        type: "",
+        model: "",
+        size: "",
+        colorShape: "",
+        unit: "",
+        number: 0,
+        backMan: "",
+        backDate: "",
+        inputMan: "",
+        inputDate: "",
+        notes: "",
+        store: "",
+      };
       this.tableData.push(singleObj);
     },
     saveRow(index) {
@@ -235,14 +235,11 @@ export default {
       }
 
       outerReturnApi.normalPost(tmpObj).then((res) => {
-        //   console.log(res);
-        if (res.status == 200) {
-          if (res.status == 200) {
-            this.$message.success(res.msg);
-            this.deleteRow(index)
-          } else {
-            this.$message.error(res.msg);
-          }
+        if (res.meta.state == 200) {
+          this.$message.success("提交成功");
+          this.deleteRow(index);
+        } else {
+          this.$message.error(res.meta.msg);
         }
       });
     },
@@ -271,15 +268,6 @@ export default {
 
   .item {
     margin-bottom: 18px;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both;
   }
 
   .box-card {

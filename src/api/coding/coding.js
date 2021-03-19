@@ -21,9 +21,16 @@ const deleteData = params => {
     return axios.post("http://192.168.0.14:80/storege/coding/deleteCode.php",
         qs.stringify(params)).then(res => res.data)
 }
+
+//按条件返回编码
+const filterCode = params => {
+    return axios.post("http://192.168.0.14:80/storege/coding/filterCode.php",
+        qs.stringify(params)).then(res => res.data)
+}
 export default {
     importData,
     getPost,
     editData,
-    deleteData
+    deleteData,
+    filterCode
 }

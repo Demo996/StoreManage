@@ -148,7 +148,9 @@
           </el-row>
           <el-row>
             <el-button type="success" round @click="submit">提交</el-button>
-            <el-button type="info" round @click="dialogVisible = false">取消</el-button>
+            <el-button type="info" round @click="dialogVisible = false"
+              >取消</el-button
+            >
           </el-row>
         </div>
       </el-card>
@@ -190,7 +192,12 @@
         <el-table-column label="备注" prop="备注"> </el-table-column>
         <el-table-column label="操作" prop="操作">
           <template scope="scope">
-            <el-button type="primary" icon="el-icon-edit" circle @click="handle(scope.row)"></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              @click="handle(scope.row)"
+            ></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -282,7 +289,7 @@ export default {
     },
   },
   methods: {
-        hover_style({ row, rowIndex }) {
+    hover_style({ row, rowIndex }) {
       if (rowIndex < 0) {
         return;
       } else {
@@ -290,49 +297,52 @@ export default {
       }
     },
     submit() {
-      if(!this.backType)  {
-        this.$message.error("请选择购退方式")
-        return
+      if (!this.backType) {
+        this.$message.error("请选择购退方式");
+        return;
       }
-      if(!this.noteText) {
-        this.$message.error("请填写退货备注")
-        return
+      if (!this.noteText) {
+        this.$message.error("请填写退货备注");
+        return;
       }
-      if(this.backNum === "") {
-        this.$message.error("请填写退货数量")
-        return
+      if (this.backNum === "") {
+        this.$message.error("请填写退货数量");
+        return;
       }
       let d = new Date();
       let n = d.toISOString();
       let currDate = n.split("T")[0];
-      console.log(this.backType);
+      // console.log(this.backType);
 
-      purchaseBackApi.postEdit({
-        code: this.operateArr["申请单编号"],
-        typeId: this.backType,
-        numb: this.backNum,
-        price: this.backPrice,
-        fee: this.backFee,
-        money: this.backMoney,
-        rowMoney: this.rowMoney,
-        note: this.noteText,
-        currDate: currDate,
-        detail: this.operateArr
-      }).then(res=>{
-        if(res.status == 200) {
-          this.backType = ""
-          this.backNum = 0
-          this.backPrice = 0.0
-          this.note = ""
-          this.$message.success(res.msg)
-          let remainMoney = parseInt(this.backNum) * parseInt(operateArr["单价"])
-          this.operateArr["数量"] = maxNum - this.backNum
-          this.operateArr["合计金额"] = remainMoney
-          this.dialogVisible = false
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
+      purchaseBackApi
+        .postEdit({
+          code: this.operateArr["申请单编号"],
+          typeId: this.backType,
+          numb: this.backNum,
+          price: this.backPrice,
+          fee: this.backFee,
+          money: this.backMoney,
+          rowMoney: this.rowMoney,
+          note: this.noteText,
+          currDate: currDate,
+          detail: this.operateArr,
+        })
+        .then((res) => {
+          if (res.meta.state == 200) {
+            this.backType = "";
+            this.backNum = 0;
+            this.backPrice = 0.0;
+            this.note = "";
+            let remainMoney = parseInt(this.backNum) * parseInt(operateArr["单价"]);
+            this.operateArr["数量"] = maxNum - this.backNum;
+            this.operateArr["合计金额"] = remainMoney;
+            this.dialogVisible = false;
+
+            this.$message.success("提交成功");
+          } else {
+            this.$message.error(res.meta.msg);
+          }
+        });
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
@@ -353,9 +363,12 @@ export default {
           pagesize: this.pagesize,
         })
         .then((res) => {
-          // console.log(res);
-          this.pagetotal = res.pagetotal;
-          this.tableData = res.data;
+          if (res.meta.state == 200) {
+            this.pagetotal = res.pagetotal;
+            this.tableData = res.data;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
         });
     },
 

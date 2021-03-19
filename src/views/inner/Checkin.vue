@@ -379,14 +379,14 @@ export default {
 
       // console.log(postObj);
       innerApi.checkIn(postObj).then((res) => {
-        if (res.status === 200) {
+        if (res.meta.state == 200) {
           this.checkArr["数量"] = remainNum;
           this.currStore = "";
           this.notes = "";
           this.currNum = remainNum;
-          this.$message.success(res.msg);
+          this.$message.success('提交成功');
         } else {
-          this.$message.error(res.msg);
+          this.$message.error(res.meta.msg);
         }
       });
     },

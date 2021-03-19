@@ -46,7 +46,6 @@
         <el-table-column label="入库员" prop="入库员"> </el-table-column>
         <el-table-column label="入库日期" prop="入库日期"> </el-table-column>
         <el-table-column label="备注" prop="备注"> </el-table-column>
-
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -88,14 +87,20 @@ export default {
   },
   methods: {
     initData() {
-        outerReturnApi.normalRecord({
-            store: this.currStore,
-            pagenum: this.pagenum,
-            pagesize: this.pagesize
-        }).then(res=>{
-            this.pagetotal = res.pagetotal;
-            this.tableData = res.data
+      outerReturnApi
+        .normalRecord({
+          store: this.currStore,
+          pagenum: this.pagenum,
+          pagesize: this.pagesize,
         })
+        .then((res) => {
+          if (res.meta.state == 200) {
+            this.pagetotal = res.pagetotal;
+            this.tableData = res.data;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
+        });
     },
 
     // 切换每页条数
@@ -109,7 +114,7 @@ export default {
       // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
-    }
+    },
   },
   watch: {
     //库变化表格也相应更新当前库数据
@@ -119,7 +124,7 @@ export default {
   },
   created() {
     this.initData();
-  }
+  },
 };
 </script>
 
@@ -127,9 +132,5 @@ export default {
 .store {
   text-align: left;
   margin-bottom: 10px;
-}
-.el-pagination {
-  text-align: left;
-  margin-top: 10px;
 }
 </style>

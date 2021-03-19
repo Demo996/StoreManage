@@ -2,14 +2,14 @@
   <div class="table-container">
     <el-card class="box-card">
       <div slot="header" class="header">
-        <el-tag style="fontSize: 16px">销售出库</el-tag>
-          <el-button
-            type="primary"
-            class="operate-btn el-icon-plus"
-            @click="addRow"
-            round
-            >新增</el-button
-          >
+        <el-tag style="fontsize: 16px">销售出库</el-tag>
+        <el-button
+          type="primary"
+          class="operate-btn el-icon-plus"
+          @click="addRow"
+          round
+          >新增</el-button
+        >
       </div>
       <div class="text item">
         <div class="data-table">
@@ -50,7 +50,7 @@
               </template>
             </el-table-column>
 
-<el-table-column label="数量" width="80">
+            <el-table-column label="数量" width="80">
               <template scope="scope">
                 <el-input
                   type="number"
@@ -63,7 +63,7 @@
             <el-table-column label="单价" width="80">
               <template scope="scope">
                 <el-input
-                type="number"
+                  type="number"
                   min="0"
                   v-model="scope.row.price"
                   @change="calcMoney(scope.$index)"
@@ -72,10 +72,7 @@
             </el-table-column>
             <el-table-column label="总额" width="80">
               <template scope="scope">
-                <el-input
-                readonly
-                  v-model="scope.row.total"
-                ></el-input>
+                <el-input readonly v-model="scope.row.total"></el-input>
               </template>
             </el-table-column>
 
@@ -136,7 +133,7 @@
             <el-table-column label="操作" width="160">
               <template slot-scope="scope">
                 <el-button
-                style="margin-left:5px"
+                  style="margin-left: 5px"
                   @click.native.prevent="saveRow(scope.$index)"
                   type="primary"
                   size="small"
@@ -208,47 +205,47 @@ export default {
           number: 0,
           price: 0.0,
           total: 0.0,
-          outMan: '',
-          deliver: '',
-          client: '',
-          signer:'',
+          outMan: "",
+          deliver: "",
+          client: "",
+          signer: "",
           outDate: "",
           notes: "",
-          store: ""
-        }
-      ]
+          store: "",
+        },
+      ],
     };
   },
   methods: {
-      calcMoney(index){
+    calcMoney(index) {
       let tmp = this.tableData[index];
       let num1 = parseInt(tmp.number);
       let num2 = parseFloat(tmp.price);
       tmp.total = num1 * num2;
-      },
+    },
     deleteRow(index) {
       this.tableData.splice(index, 1);
     },
     addRow() {
-        let singleObj = {
-          devCode: "",
-          devName: "",
-          type: "",
-          model: "",
-          size: "",
-          colorShape: "",
-          unit: "",
-          number: 0,
-          price: 0.0,
-          total: 0.0,
-          outMan: '',
-          deliver: '',
-          client: '',
-          signer:'',
-          outDate: "",
-          notes: "",
-          store: ""
-      }
+      let singleObj = {
+        devCode: "",
+        devName: "",
+        type: "",
+        model: "",
+        size: "",
+        colorShape: "",
+        unit: "",
+        number: 0,
+        price: 0.0,
+        total: 0.0,
+        outMan: "",
+        deliver: "",
+        client: "",
+        signer: "",
+        outDate: "",
+        notes: "",
+        store: "",
+      };
       this.tableData.push(singleObj);
     },
     saveRow(index) {
@@ -261,21 +258,20 @@ export default {
         }
       }
 
-      let operator = localStorage.getItem('uname')
-      outerSalesApi.salesPost({
-        operator:operator,
-        data: tmpObj
-      }).then((res) => {
-          console.log(res);
-        if (res.status == 200) {
-          if (res.status == 200) {
-            this.$message.success(res.msg);
-            this.deleteRow(index)
+      let operator = localStorage.getItem("uname");
+      outerSalesApi
+        .salesPost({
+          operator: operator,
+          data: tmpObj,
+        })
+        .then((res) => {
+          if (res.meta.state == 200) {
+            this.$message.success("提交成功");
+            this.deleteRow(index);
           } else {
-            this.$message.error(res.msg);
+            this.$message.error(res.meta.msg);
           }
-        }
-      });
+        });
     },
   },
 };
@@ -290,13 +286,13 @@ export default {
     width: 100%;
   }
 
-.header {
-  text-align: left;
-  .el-button {
-    float: right;
-    margin-top: -5px;
+  .header {
+    text-align: left;
+    .el-button {
+      float: right;
+      margin-top: -5px;
+    }
   }
-}
   //el-card样式
   .text {
     font-size: 14px;

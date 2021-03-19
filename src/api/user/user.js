@@ -13,6 +13,8 @@ const delUser = params => {
     return axios.post("http://192.168.0.14:80/storege/user/delete.php",
         qs.stringify(params)).then(res => res.data)
 }
+
+//修改状态  禁用用户或者解禁
 const state = params => {
     return axios.post("http://192.168.0.14:80/storege/user/state.php",
         qs.stringify(params)).then(res => res.data)

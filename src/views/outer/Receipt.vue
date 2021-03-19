@@ -2,14 +2,19 @@
   <div class="table-container">
     <el-card class="box-card">
       <div slot="header" class="header">
-        <el-tag style="fontSize: 16px">领用登记</el-tag>
+        <el-tag style="fontsize: 16px">领用登记</el-tag>
         <el-button type="primary" round class="el-icon-plus" @click="addRow">
-        新增</el-button
-      >
+          新增</el-button
+        >
       </div>
       <div class="text item">
         <div class="data-table">
-          <el-table :data="tableData" size="medium" style="width: 100%" max-height="600">
+          <el-table
+            :data="tableData"
+            size="medium"
+            style="width: 100%"
+            max-height="600"
+          >
             <el-table-column fixed label="产品/设备编号" width="140">
               <template scope="scope">
                 <el-input clearable v-model="scope.row.devCode"></el-input>
@@ -100,7 +105,7 @@
               <template slot-scope="scope">
                 <el-button
                   @click.native.prevent="saveRow(scope.$index)"
-                  style="margin-left:5px"
+                  style="margin-left: 5px"
                   type="primary"
                   size="small"
                 >
@@ -174,8 +179,8 @@ export default {
           outDate: "",
           notes: "",
           store: "",
-        }
-      ]
+        },
+      ],
     };
   },
   methods: {
@@ -183,7 +188,7 @@ export default {
       this.tableData.splice(index, 1);
     },
     addRow() {
-        let singleObj = {
+      let singleObj = {
         devCode: "",
         devName: "",
         type: "",
@@ -197,12 +202,12 @@ export default {
         outDate: "",
         notes: "",
         store: "",
-      }
+      };
       this.tableData.push(singleObj);
     },
     saveRow(index) {
       let tmpObj = this.tableData[index];
-      let operator = localStorage.getItem('uname')
+      let operator = localStorage.getItem("uname");
 
       for (let key in tmpObj) {
         if (tmpObj[key] == "") {
@@ -210,19 +215,19 @@ export default {
           return;
         }
       }
-      outerReceiptApi.receiptPost( {
-        data:tmpObj,
-        operator: operator
-      }).then((res) => {
-        if (res.status == 200) {
-          if (res.status == 200) {
-            this.$message.success(res.msg);
-            this.deleteRow(index)
+      outerReceiptApi
+        .receiptPost({
+          data: tmpObj,
+          operator: operator,
+        })
+        .then((res) => {
+          if (res.meta.state == 200) {
+            this.$message.success("提交成功");
+            this.deleteRow(index);
           } else {
-            this.$message.error(res.msg);
+            this.$message.error(res.meta.msg);
           }
-        }
-      });
+        });
     },
   },
 };
@@ -243,51 +248,50 @@ export default {
   background-color: #f0f2f5;
 
   .el-card {
-  //el-card样式
-  width: 100%;
-  text-align: left;
-
+    //el-card样式
+    width: 100%;
+    text-align: left;
 
     .header .el-button {
-    float: right;
-    margin-top: -5px;
-  }
+      float: right;
+      margin-top: -5px;
+    }
 
-  //el-card样式
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
-  .box-card {
-    width: 100%;
-  }
-
-  .data-table {
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #fff;
-
-    .table {
-      width: 100%;
+    //el-card样式
+    .text {
       font-size: 14px;
-      border: none;
+    }
 
-      .el-input {
+    .item {
+      margin-bottom: 18px;
+    }
+
+    .box-card {
+      width: 100%;
+    }
+
+    .data-table {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #fff;
+
+      .table {
         width: 100%;
-        height: 100%;
-      }
-
-      td {
+        font-size: 14px;
         border: none;
-        padding: 0px;
+
+        .el-input {
+          width: 100%;
+          height: 100%;
+        }
+
+        td {
+          border: none;
+          padding: 0px;
+        }
       }
     }
-  }
   }
 }
 </style>

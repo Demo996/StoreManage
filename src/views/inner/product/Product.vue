@@ -159,7 +159,6 @@ export default {
           inputMan: "",
           inputDate: "",
           notes: "",
-          operator: "admin",
           store: "",
         },
       ],
@@ -192,7 +191,6 @@ export default {
         inputMan: "",
         inputDate: "",
         notes: "",
-        operator: "admin",
         store: "",
       };
       this.tableData.push(singleObj);
@@ -205,16 +203,19 @@ export default {
           return;
         }
       }
+
+      let operator = localStorage.getItem("uname")
       productInApi
         .post({
           data: currRow,
+          operator: operator
         })
         .then((res) => {
           // console.log(res);
-          if (res.status == 200) {
-            this.$message.success(res.msg);
+          if (res.meta.state == 200) {
+            this.$message.success('提交成功');
           } else {
-            this.$message.error(res.msg);
+            this.$message.error(res.meta.msg);
           }
         });
     },

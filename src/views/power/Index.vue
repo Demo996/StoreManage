@@ -48,7 +48,11 @@ export default {
     // 默认数据
     initData() {
       authsApi.getPower().then(res => {
-          this.data = res
+        if(res.meta.state == 200) {
+          this.data = res.data
+        } else {
+          this.$message.error(res.meta.msg)
+        }
       })
     },
     // 过滤节点

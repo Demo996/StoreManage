@@ -2,7 +2,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="header">
-      <el-tag style="fontSize: 16px">正在领用</el-tag>
+      <el-tag style="fontsize: 16px">正在领用</el-tag>
     </div>
     <div class="text item">
       <el-card class="box-card">
@@ -142,8 +142,12 @@ export default {
           searchMan: this.searchMan,
         })
         .then((res) => {
-          this.pagetotal = res.pagetotal;
-          this.tableData = res.data;
+          if (res.meta.state == 200) {
+            this.pagetotal = res.pagetotal;
+            this.tableData = res.data;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
         });
     },
 

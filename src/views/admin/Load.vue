@@ -71,12 +71,15 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     loadApi.post(this.formData).then(res=>{
-                        if(res.status == 200) {
+                        if(res.meta.state == 200) {
                             this.$message.success('登录成功');
                             this.$router.push({path:'/'})
-                            localStorage.setItem("uname", "qwe")
+
+                            localStorage.setItem("uname", res.user)
+                            localStorage.setItem("role", res.role)
+                            localStorage.setItem("token", res.token)
                         } else {
-                            this.$message.error(res.msg)
+                            this.$message.error(res.meta.msg)
                         }
                     })
                 } else {

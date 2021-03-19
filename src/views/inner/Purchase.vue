@@ -1,5 +1,130 @@
 <template>
   <div class="table-container">
+    <!-- 自动填写弹框 -->
+    <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false">
+      <el-card class="box-card">
+        <div slot="header">
+          <el-row class="search-form" :gutter="20" style="margin-bottom: 10px">
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="请输入编码"
+                  v-model.trim="filterCode"
+                  clearable
+                >
+                </el-input></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="请输入类型"
+                  v-model.trim="filterType"
+                  clearable
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="initData"
+                  ></el-button>
+                </el-input></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-button
+                  type="primary"
+                  style="margin-right: 10px"
+                  @click="codeSure"
+                  >确 定</el-button
+                >
+                <el-button type="info" @click="codeCancle">取 消</el-button>
+              </div></el-col
+            >
+          </el-row>
+          <el-row class="search-form" :gutter="20">
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="请输入名称"
+                  v-model.trim="filterName"
+                  clearable
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="initData"
+                  ></el-button>
+                </el-input></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="请输入规格型号"
+                  v-model.trim="filterModel"
+                  clearable
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="initData"
+                  ></el-button>
+                </el-input></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="颜色形状"
+                  v-model.trim="filterColorShape"
+                  clearable
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="initData"
+                  ></el-button>
+                </el-input></div
+            ></el-col>
+          </el-row>
+        </div>
+        <div class="text item">
+          <el-table
+            :data="drawerTableData"
+            ref="multipleTable"
+            size="medium"
+            style="width: 100%"
+            max-height="700"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column label="编码" prop="编码" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="类型" prop="类型" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="名称" prop="名称" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+              label="规格型号"
+              prop="规格型号"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column label="颜色形状" prop="颜色形状">
+            </el-table-column>
+          </el-table>
+          <!-- 分页 -->
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pagenum"
+            :page-sizes="[5, 10, 20, 30]"
+            :page-size="pagesize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="pagetotal"
+          >
+          </el-pagination>
+        </div>
+      </el-card>
+    </el-drawer>
+    <!-- /自动填写弹框 -->
     <el-row>
       <el-button type="primary" class="operate-btn el-icon-plus" @click="addRow"
         >新增</el-button
@@ -112,28 +237,36 @@
       </div>
       <div class="text item">
         <div class="data-table">
-          <el-table :data="tableData" size="medium" style="width: 100%" max-height="250">
+          <el-table
+            :data="tableData"
+            size="medium"
+            style="width: 100%"
+            max-height="250"
+          >
             <el-table-column fixed label="产品/设备编号" width="140">
               <template scope="scope">
-                <el-input v-model="scope.row.devCode"></el-input>
+                <el-input
+                  v-model="scope.row.devCode"
+                  @click.native="showDrawer"
+                ></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="产品/设备名称"  width="140">
+            <el-table-column label="产品/设备名称" width="140">
               <template scope="scope">
                 <el-input v-model="scope.row.devName"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="类型"  width="100">
+            <el-table-column label="类型" width="100">
               <template scope="scope">
                 <el-input v-model="scope.row.type"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="型号"  width="100">
+            <el-table-column label="型号" width="100">
               <template scope="scope">
                 <el-input v-model="scope.row.model"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="规格"  width="100">
+            <el-table-column label="规格" width="100">
               <template scope="scope">
                 <el-input v-model="scope.row.size"></el-input>
               </template>
@@ -160,7 +293,7 @@
             <el-table-column label="单价" width="80">
               <template scope="scope">
                 <el-input
-                type="number"
+                  type="number"
                   v-model="scope.row.price"
                   @change="calcMoney(scope.$index)"
                 ></el-input>
@@ -169,7 +302,7 @@
             <el-table-column label="运费" width="80">
               <template scope="scope">
                 <el-input
-                type="number"
+                  type="number"
                   v-model="scope.row.freight"
                   @change="calcMoney(scope.$index)"
                 ></el-input>
@@ -218,7 +351,12 @@
             </el-table-column>
             <el-table-column label="操作" :resizable="true">
               <template slot-scope="scope">
-                <el-button type="text" style="margin-left:10px;" @click.native.prevent="deleteRow(scope.$index, tableData)">删除</el-button>
+                <el-button
+                  type="text"
+                  style="margin-left: 10px"
+                  @click.native.prevent="deleteRow(scope.$index, tableData)"
+                  >删除</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -229,6 +367,8 @@
 </template>
 
 <script>
+import codeApi from "@/api/coding/coding";
+import { purchaseApi } from "@/api";
 export default {
   data: function () {
     return {
@@ -284,7 +424,19 @@ export default {
           purpose: "",
           notes: "",
         },
-      ]
+      ],
+      drawer: false, //显示抽屉、提示编码
+      drawerTableData: [],
+      multipleSelection: [],
+
+      filterCode: "",
+      filterType: "",
+      filterName: "",
+      filterModel: "",
+      filterColorShape: "",
+      pagenum: 1,
+      pagesize: 10,
+      pagetotal: 100,
     };
   },
   methods: {
@@ -312,7 +464,7 @@ export default {
       this.totalMoney();
     },
     addRow() {
-        let singleObj = {
+      let singleObj = {
         devCode: "",
         devName: "",
         type: "",
@@ -328,7 +480,7 @@ export default {
         purchaseDate: "",
         purpose: "",
         notes: "",
-      }
+      };
       this.tableData.push(singleObj);
     },
     saveForm() {
@@ -344,40 +496,132 @@ export default {
       };
       for (let key in mainMsg) {
         if (mainMsg[key] === "") {
-          alert("数据不完整");
+          this.$message.error("数据不完整");
           return;
         }
       }
       for (let item of this.tableData) {
         for (let key in item) {
           if (!item[key]) {
-            alert("数据填写不完整");
+            this.$message.error("数据填写不完整");
             return;
           }
         }
       }
+
+      let operator = localStorage.getItem("operator");
       let sendMsg = {
+        operator: operator,
         main: mainMsg,
         detail: this.rowContent,
       };
-      this.$message({
-        showClose: true,
-        message: "提交成功",
-        type: "success",
+
+      purchaseApi.post(sendMsg).then((res) => {
+        if (res.meta.state == 200) {
+          this.$message.success("提交成功");
+        } else {
+          this.$message.error(res.meta.msg);
+        }
       });
+    },
+    showDrawer() {
+      this.drawer = true;
+      this.initData();
+    },
+    initData() {
+      codeApi
+        .filterCode({
+          filterCode: this.filterCode,
+          filterType: this.filterType,
+          filterName: this.filterName,
+          filterModel: this.filterModel,
+          filterColorShape: this.filterColorShape,
+          pagenum: this.pagenum,
+          pagesize: this.pagesize,
+          pagetotal: this.pagetotal,
+        })
+        .then((res) => {
+          if (res.meta.state == 200) {
+            this.drawerTableData = res.data;
+            this.pagetotal = res.pagetotal;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
+        });
+    },
+    // 切换每页条数
+    handleSizeChange(val) {
+      // console.log(`每页 ${val} 条`);
+      this.pagesize = val;
+      this.initData();
+    },
+    // 切换分页
+    handleCurrentChange(val) {
+      // console.log(`当前页: ${val}`);
+      this.pagenum = val;
+      this.initData();
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      console.log(this.multipleSelection);
+    },
+    codeSure() {
+      if (this.multipleSelection) {
+        let tmpObj = {
+          devCode: "",
+          devName: "",
+          type: "",
+          model: "",
+          size: "",
+          colorShape: "",
+          unit: "",
+          number: 0,
+          price: 0,
+          freight: 0,
+          total: 0,
+          billType: "",
+          purchaseDate: "",
+          purpose: "",
+          notes: "",
+        };
+        let tmpArr = this.multipleSelection;
+        tmpArr.forEach((element) => {
+          tmpObj["devCode"] = element["编码"];
+          tmpObj["devName"] = element["名称"];
+          tmpObj["type"] = element["类型"];
+          tmpObj["model"] = element["规格型号"];
+          tmpObj["size"] = element["规格型号"];
+          tmpObj["colorShape"] = element["颜色形状"];
+          this.tableData.push(tmpObj);
+        });
+        console.log(this.tableData);
+        this.multipleSelection = [];
+      }
+    },
+    codeCancle() {
+      this.drawer = false;
+    },
+  },
+  watch: {
+    filterCode() {
+      this.initData();
     },
   },
 };
 </script>
 
+<style>
+.el-drawer {
+  width: 40% !important;
+}
+</style>
+
 <style lang="scss" scoped>
-
 .table-container {
-
   height: 100%;
   background-color: #f0f2f5;
 
-    .el-input {
+  .el-input {
     width: 100%;
   }
 

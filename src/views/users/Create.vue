@@ -63,13 +63,12 @@ export default {
                 if (valid) {
                     usersApi.createUser(this.ruleForm)
                     .then(res => {
-                        console.log(res);
-                        if(res.status == 200)
+                        if(res.meta.state == 200)
                         {
-                            this.$message.success(res.msg);
-                            // this.$router.push({path:'/users'})
+                            this.$message.success("创建成功");
+                            this.$router.push({path:'/users/index'})
                         } else {
-                            this.$message.error(res.msg);
+                            this.$message.error(res.meta.msg);
                         }
                     })
                 } else {

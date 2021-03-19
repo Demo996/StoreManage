@@ -22,7 +22,7 @@ axios.interceptors.request.use(function(config) {
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         // 3. loading  TODO. 扫码不需要loading
     if (config.url != 'qr/check.php') showLoading()
-
+    console.log(config);
     return config;
 }, function(error) {
     // 对请求错误做些什么
@@ -62,11 +62,8 @@ import goodsCateApi from './goods/cate'
 import goodsTypeApi from './goods/type'
 import goodsAttrApi from './goods/attr'
 import goodsApi from './goods/index'
-import ordersApi from './orders'
-import usersApi from './users'
-import rolesApi from './roles'
-import authsApi from './auths'
 
+import purchaseApi from './inner/purchase'
 import innerApi from './inner/checkIn'
 import checkSearApi from './inner/checkSear'
 import productInApi from './inner/productIn'
@@ -86,11 +83,8 @@ export {
     goodsTypeApi,
     goodsAttrApi,
     goodsApi,
-    ordersApi,
-    usersApi,
-    rolesApi,
-    authsApi,
 
+    purchaseApi,
     innerApi,
     checkSearApi,
     productInApi,

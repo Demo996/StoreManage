@@ -114,11 +114,14 @@ export default {
         // set loading
         this.treeLoading = false;
         // set data
-        this.treeData = res;
-
-        // 默认选中已有权限
-        let tmp = row.roles_auth ? row.roles_auth_son.split(",") : [];
-        this.defaultAuthIds = tmp;
+        if (res.meta.state == 200) {
+          this.treeData = res.data;
+          // 默认选中已有权限
+          let tmp = row.roles_auth ? row.roles_auth_son.split(",") : [];
+          this.defaultAuthIds = tmp;
+        } else {
+          this.$message.error(res.meta.msg);
+        }
       });
 
       // 显示弹框
@@ -160,12 +163,12 @@ export default {
         .then((res) => {
           // loading
           this.loading = false;
-          if (res.status == 200) {
+          if (res.meta.state == 200) {
             this.$message.success("操作成功");
             this.initData();
             this.dialogFormVisible = false;
           } else {
-            this.$message.error(res.msg);
+            this.$message.error(res.meta.msg);
           }
         });
     },
@@ -184,36 +187,39 @@ export default {
         })
         .then((res) => {
           {
-              console.log(res);
-            if (res.status == 200) {
-              this.$message.success(res.msg);
+            if (res.meta.state == 200) {
+              this.$message.success("操作成功");
               this.initData();
               this.dialogVisible = false;
             } else {
-                this.$message.error(res.msg);
+              this.$message.error(res.meta.msg);
               this.dialogVisible = false;
             }
           }
         });
     },
     del(row) {
-        this.$confirm('此操作将删除此角色以及对应的用户, 请确定是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-        }).then(() => {
-            rolesApi.delRole(row)
-            .then(res => {
-                if (res.status == 200)
-                {
-                    this.initData()
-                    this.$message.success('删除成功!');
-                } else {
-                    this.$message.error(res.msg);
-                }
-            })
-        }).catch(() => {
-            this.$message.info('已取消删除!');
+      this.$confirm(
+        "此操作将删除此角色以及对应的用户, 请确定是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          rolesApi.delRole(row).then((res) => {
+            if (res.meta.state == 200) {
+              this.initData();
+              this.$message.success("删除成功!");
+            } else {
+              this.$message.error(res.meta.msg);
+            }
+          });
+        })
+        .catch(() => {
+          this.$message.info("已取消删除!");
         });
     },
     // 初始化数据
@@ -224,8 +230,11 @@ export default {
       rolesApi.showRole().then((res) => {
         // loading
         this.loading = false;
-        // data
-        this.tableData = res;
+        if (res.meta.state == 200) {
+          this.tableData = res.data;
+        } else {
+          this.$message.error(res.meta.msg);
+        }
       });
     },
     handleClose(done) {
@@ -289,17 +298,6 @@ export default {
         float: right;
       }
     }
-  }
-
-  // 分页
-  .el-pagination {
-    width: 100%;
-    padding: 10px 0px;
-    background: #ebeef5;
-    text-align: right;
-    margin-top: 10px;
-    padding-right: 10px;
-    box-sizing: border-box;
   }
 }
 </style>

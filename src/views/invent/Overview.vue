@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-        <el-select v-model="currStore" placeholder="请选择仓库">
+      <el-select v-model="currStore" placeholder="请选择仓库">
         <el-option
           v-for="item in storeArea"
           :key="item.id"
@@ -30,15 +30,6 @@
         <el-table-column label="颜色/形状" prop="颜色/形状"> </el-table-column>
         <el-table-column label="单位" prop="单位"> </el-table-column>
         <el-table-column label="库存量" prop="库存量"> </el-table-column>
-        <!-- <el-table-column align="right">
-          <template slot="header" slot-scope="scope">
-            <el-input
-              v-model="search"
-              size="mini"
-              placeholder="输入关键字搜索"
-            />
-          </template>
-        </el-table-column> -->
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -56,11 +47,11 @@
 </template>
 
 <script>
-import {inventApi} from '@/api'
+import { inventApi } from "@/api";
 export default {
   data() {
     return {
-      tableData:[],      
+      tableData: [],
       currStore: "",
       storeArea: [
         { id: 0, text: "所有库", title: "" },
@@ -77,17 +68,22 @@ export default {
     };
   },
   methods: {
-      initData() {
-          inventApi.inventPost({
-              store: this.currStore,
-              pagenum: this.pagenum,
-              pagesize: this.pagesize
-          }).then(res=> {
-            //   console.log(res.data);
-              this.tableData = res.data
-              this.pagetotal = res.pagetotal
-          })
-      },
+    initData() {
+      inventApi
+        .inventPost({
+          store: this.currStore,
+          pagenum: this.pagenum,
+          pagesize: this.pagesize,
+        })
+        .then((res) => {
+          if (res.meta.state == 200) {
+            this.tableData = res.data;
+            this.pagetotal = res.pagetotal;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
+        });
+    },
     // 切换每页条数
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
@@ -99,15 +95,15 @@ export default {
       // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
-    }
+    },
   },
-  watch:{
-      currStore(){
-          this.initData()
-      }
+  watch: {
+    currStore() {
+      this.initData();
+    },
   },
   created() {
-      this.initData()
+    this.initData();
   },
 };
 </script>
@@ -115,29 +111,16 @@ export default {
 <style lang="scss" scoped>
 .box-card {
   width: 100%;
-  .el-select{
-      float: left;
+  .el-select {
+    float: left;
   }
 
   .text {
-  font-size: 14px;
-}
-
-.item {
-  margin-bottom: 18px;
-  .el-pagination {
-      margin-top: 20px;
-      float: left;
+    font-size: 14px;
   }
-}
 
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
+  .item {
+    margin-bottom: 18px;
+  }
 }
 </style>

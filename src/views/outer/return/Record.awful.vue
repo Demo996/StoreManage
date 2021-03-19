@@ -70,8 +70,12 @@ export default {
           pagesize: this.pagesize,
         })
         .then((res) => {
-          this.pagetotal = res.pagetotal;
-          this.tableData = res.data;
+          if (res.meta.state == 200) {
+            this.pagetotal = res.pagetotal;
+            this.tableData = res.data;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
         });
     },
 
@@ -104,9 +108,5 @@ export default {
 .store {
   text-align: left;
   margin-bottom: 10px;
-}
-.el-pagination {
-  text-align: left;
-  margin-top: 10px;
 }
 </style>

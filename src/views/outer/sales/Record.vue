@@ -211,8 +211,12 @@ export default {
           searchDevName: this.searchDevName,
         })
         .then((res) => {
-          this.pagetotal = res.pagetotal;
-          this.tableData = res.data;
+          if(res.meta.state == 200) {
+              this.pagetotal = res.pagetotal;
+              this.tableData = res.data;
+          } else {
+              this.$message.error(res.meta.msg)
+          }
         });
     },
 

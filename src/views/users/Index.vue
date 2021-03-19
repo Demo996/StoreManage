@@ -147,12 +147,12 @@ export default {
         }).then(() => {
             usersApi.delUser(row)
             .then(res => {
-                if (res.status == 200)
+                if (res.meta.state == 200)
                 {
                     this.initData()
                     this.$message.success('删除成功!');
                 } else {
-                    this.$message.error(res.msg);
+                    this.$message.error(res.meta.msg);
                 }
             })
         }).catch(() => {
@@ -168,13 +168,13 @@ export default {
                 role_id: this.ruleForm.role_id
             })
             .then(res => {
-                if (res.status == 200)
+                if (res.meta.state == 200)
                 {
                     this.$message.success('操作成功')
                     this.initData()
                     this.dialogFormVisible = false
                 } else {
-                    this.$message.error(res.msg)
+                    this.$message.error(res.meta.msg)
                 }
             })
       },
@@ -187,7 +187,11 @@ export default {
             // 显示默认数据
             usersApi.getRolesName()
             .then(res => {
-                this.roles = res
+                if(res.meta.state == 200) {
+                    this.roles = res.data
+                } else {
+                    this.$message.error(res.meta.msg)
+                }
                 this.ruleFormLoading = false
             })
             // 显示弹框
@@ -203,14 +207,13 @@ export default {
             state:state,
         })
         .then(res => {
-            if (res.status == 200)
+            if (res.meta.state == 200)
             {
-                this.$message.success(res.msg);
+                this.$message.success("操作成功");
             } else {
                 // tips
-                this.$message.error(res.msg);
+                this.$message.error(res.meta.msg);
             }
-            
             // loading
             this.loading = false
         })
@@ -236,10 +239,12 @@ export default {
           .then(res => {
               // loading
               this.loading = false
-              console.log(res);
-            //   data
-              this.tableData = res.data
-              this.pagetotal = parseInt(res.pagetotal)
+              if(res.meta.state == 200) {
+                this.tableData = res.data
+                this.pagetotal = parseInt(res.pagetotal)
+              } else {
+                  this.$message.error(res.meta.msg);
+              }
           })
       },
       // 切换每页条数
@@ -314,17 +319,6 @@ export default {
             // 日期
             .el-date-editor {float: right;}
         } 
-    }
-
-    // 分页
-    .el-pagination {
-        width: 100%;
-        padding: 10px 0px;
-        background: #EBEEF5;
-        text-align: right;
-        margin-top: 10px;
-        padding-right: 10px;    
-        box-sizing:border-box;
     }
 }
 </style>

@@ -166,9 +166,12 @@ export default {
           searchDevName: this.searchDevName,
         })
         .then((res) => {
-          //   console.log(res.data);
-          this.tableData = res.data;
-          this.pagetotal = res.pagetotal;
+          if (res.meta.state == 200) {
+            this.tableData = res.data;
+            this.pagetotal = res.pagetotal;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
         });
     },
     // 切换每页条数

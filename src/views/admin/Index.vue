@@ -98,8 +98,12 @@ export default {
         uname: getName,
       })
       .then((res) => {
-          this.menus = res
         console.log(res);
+        if (res.meta.state == 200) {
+          this.menus = res.data;
+        } else {
+          this.$message.error(res.meta.msg)
+        }
       });
 
     // console.log(this.$router.app._route.meta)
@@ -114,7 +118,6 @@ export default {
     //     this.menus = res.data
     //     this.menuLoading = false
     // })
-    
   },
   watch: {
     // 监控路由数据变化重置面包屑

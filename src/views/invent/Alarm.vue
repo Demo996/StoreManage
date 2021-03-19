@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-        <el-select v-model="currStore" placeholder="请选择仓库">
+      <el-select v-model="currStore" placeholder="请选择仓库">
         <el-option
           v-for="item in storeArea"
           :key="item.id"
@@ -12,7 +12,13 @@
       </el-select>
     </div>
     <div class="text item">
-      <el-table :data="tableData" border stripe :cell-style="addClass" style="width: 100%">
+      <el-table
+        :data="tableData"
+        border
+        stripe
+        :cell-style="addClass"
+        style="width: 100%"
+      >
         <el-table-column
           label="序号"
           type="index"
@@ -30,15 +36,6 @@
         <el-table-column label="颜色/形状" prop="颜色/形状"> </el-table-column>
         <el-table-column label="单位" prop="单位"> </el-table-column>
         <el-table-column label="库存量" prop="库存量"> </el-table-column>
-        <!-- <el-table-column align="right">
-          <template slot="header" slot-scope="scope">
-            <el-input
-              v-model="search"
-              size="mini"
-              placeholder="输入关键字搜索"
-            />
-          </template>
-        </el-table-column> -->
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -56,11 +53,11 @@
 </template>
 
 <script>
-import {inventApi} from '@/api'
+import { inventApi } from "@/api";
 export default {
   data() {
     return {
-      tableData:[],      
+      tableData: [],
       currStore: "",
       storeArea: [
         { id: 0, text: "所有库", title: "" },
@@ -77,24 +74,29 @@ export default {
     };
   },
   methods: {
-      addClass({row,column,rowIndex,columnIndex}){
-          if(row["库存量"] < 3) {
-              return 'background:rgb(209,73,78);color:#fff'
+    addClass({ row, column, rowIndex, columnIndex }) {
+      if (row["库存量"] < 3) {
+        return "background:rgb(209,73,78);color:#fff";
+      } else {
+        return "background:rgb(230,180,80)";
+      }
+    },
+    initData() {
+      inventApi
+        .alarmPost({
+          store: this.currStore,
+          pagenum: this.pagenum,
+          pagesize: this.pagesize,
+        })
+        .then((res) => {
+          if (res.meta.state == 200) {
+            this.tableData = res.data;
+            this.pagetotal = res.pagetotal;
           } else {
-              return 'background:rgb(230,180,80)'
+            this.$message.error(res.meta.msg);
           }
-      },
-      initData() {
-          inventApi.alarmPost({
-              store: this.currStore,
-              pagenum: this.pagenum,
-              pagesize: this.pagesize
-          }).then(res=> {
-            //   console.log(res.data);
-              this.tableData = res.data
-              this.pagetotal = res.pagetotal
-          })
-      },
+        });
+    },
     // 切换每页条数
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
@@ -106,15 +108,15 @@ export default {
       // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
-    }
+    },
   },
-  watch:{
-      currStore(){
-          this.initData()
-      }
+  watch: {
+    currStore() {
+      this.initData();
+    },
   },
   created() {
-      this.initData()
+    this.initData();
   },
 };
 </script>
@@ -122,29 +124,16 @@ export default {
 <style lang="scss" scoped>
 .box-card {
   width: 100%;
-  .el-select{
-      float: left;
+  .el-select {
+    float: left;
   }
 
   .text {
-  font-size: 14px;
-}
-
-.item {
-  margin-bottom: 18px;
-  .el-pagination {
-      margin-top: 20px;
-      float: left;
+    font-size: 14px;
   }
-}
 
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
+  .item {
+    margin-bottom: 18px;
+  }
 }
 </style>

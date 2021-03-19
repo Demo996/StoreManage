@@ -226,9 +226,12 @@ export default {
           searchApplyMan:this.searchApplyMan
         })
         .then((res) => {
-          console.log(res);
+          if(res.meta.state == 200) {
           this.pagetotal = parseInt(res.pagetotal);
           this.tableData = res.data;
+          } else {
+            this.$message.error(res.meta.msg)
+          }
         });
     },
     initChildData() {
@@ -240,9 +243,12 @@ export default {
           pagesize: this.pagesizeChild,
         })
         .then((res) => {
-          // console.log(res);
+          if(res.meta.state == 200) {
           this.pagetotalChild = parseInt(res.pagetotal);
           this.tableChildData = res.data;
+          } else {
+            this.$message.error(res.meta.msg)
+          }
         });
     },
     // 父子表联动，点击父表的行，子表显示当前申请单编号里面的具体数据

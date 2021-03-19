@@ -74,15 +74,6 @@
             ></el-button>
           </template>
         </el-table-column>
-        <!-- <el-table-column align="right">
-          <template slot="header" slot-scope="scope">
-            <el-input
-              v-model="search"
-              size="mini"
-              placeholder="输入关键字搜索"
-            />
-          </template>
-        </el-table-column> -->
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -120,9 +111,12 @@ export default {
           pagesize: this.pagesize,
         })
         .then((res) => {
-          //   console.log(res.data);
-          this.tableData = res.data;
-          this.pagetotal = res.pagetotal;
+          if (res.meta.state == 200) {
+            this.tableData = res.data;
+            this.pagetotal = res.pagetotal;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
         });
     },
     editCode(row) {
@@ -132,10 +126,10 @@ export default {
     editFn() {
       this.dialogVisible = false;
       codingApi.editData(this.currData).then((res) => {
-        if (res.status == 200) {
-          this.$message.success(res.msg);
+        if (res.meta.state == 200) {
+          this.$message.success("提交成功");
         } else {
-          this.$message.error(res.msg);
+          this.$message.error(res.meta.msg);
         }
       });
     },
@@ -151,14 +145,11 @@ export default {
               code: code,
             })
             .then((res) => {
-              if (res.status == 200) {
+              if (res.meta.state == 200) {
                 this.initData();
-                this.$message({
-                  type: "success",
-                  message: "删除成功!",
-                });
+                this.$message.success("删除成功");
               } else {
-                this.$message.error("删除失败");
+                this.$message.error(res.meta.msg);
               }
             });
         })
@@ -222,19 +213,6 @@ export default {
 
   .item {
     margin-bottom: 18px;
-    .el-pagination {
-      margin-top: 20px;
-      float: left;
-    }
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both;
   }
 }
 </style>

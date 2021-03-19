@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="header">
-      <el-tag style="fontSize:16px">领用记录</el-tag>
+      <el-tag style="fontsize: 16px">领用记录</el-tag>
     </div>
     <div class="text item">
       <el-card class="box-card">
@@ -62,40 +62,54 @@
           </el-row>
         </div>
         <div class="text item">
-                <el-table
-        :data="tableData"
-        border
-        stripe
-        max-height="700"
-        style="width: 100%"
-        :row-class-name="hover_style"
-      >
-        <el-table-column
-          label="序号"
-          type="index"
-          show-overflow-tooltip
-          width="50"
-        >
-        </el-table-column>
-        <el-table-column label="产品/设备编码" prop="产品/设备编码" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column label="产品/设备名称" prop="产品/设备名称" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column label="类型" prop="类型" show-overflow-tooltip> </el-table-column>
-        <el-table-column label="型号" prop="型号" show-overflow-tooltip> </el-table-column>
-        <el-table-column label="规格" prop="规格" show-overflow-tooltip> </el-table-column>
-        <el-table-column label="颜色/形状" prop="颜色/形状"> </el-table-column>
-        <el-table-column label="单位" prop="单位"> </el-table-column>
+          <el-table
+            :data="tableData"
+            border
+            stripe
+            max-height="700"
+            style="width: 100%"
+            :row-class-name="hover_style"
+          >
+            <el-table-column
+              label="序号"
+              type="index"
+              show-overflow-tooltip
+              width="50"
+            >
+            </el-table-column>
+            <el-table-column
+              label="产品/设备编码"
+              prop="产品/设备编码"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              label="产品/设备名称"
+              prop="产品/设备名称"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column label="类型" prop="类型" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="型号" prop="型号" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="规格" prop="规格" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="颜色/形状" prop="颜色/形状">
+            </el-table-column>
+            <el-table-column label="单位" prop="单位"> </el-table-column>
 
-        <el-table-column label="数量" prop="数量"> </el-table-column>
+            <el-table-column label="数量" prop="数量"> </el-table-column>
 
-        <el-table-column label="领用人" prop="领用人"> </el-table-column>
-        <el-table-column label="出库人" prop="出库人"> </el-table-column>
-        <el-table-column label="出库日期" prop="出库日期"> </el-table-column>
+            <el-table-column label="领用人" prop="领用人"> </el-table-column>
+            <el-table-column label="出库人" prop="出库人"> </el-table-column>
+            <el-table-column label="出库日期" prop="出库日期">
+            </el-table-column>
 
-        <el-table-column label="备注" prop="备注" show-overflow-tooltip> </el-table-column>
-        <el-table-column label="操作员" prop="操作员"> </el-table-column>
-      </el-table>
+            <el-table-column label="备注" prop="备注" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="操作员" prop="操作员"> </el-table-column>
+          </el-table>
           <!-- 分页 -->
           <el-pagination
             @size-change="handleSizeChange"
@@ -135,11 +149,11 @@ export default {
       pagesize: 10,
       pagetotal: 100,
       searchDate: "",
-      searchCode:"",
-      searchDevName: ""
+      searchCode: "",
+      searchDevName: "",
     };
   },
-  methods: {    
+  methods: {
     hover_style({ row, rowIndex }) {
       if (rowIndex < 0) {
         return;
@@ -148,17 +162,23 @@ export default {
       }
     },
     initData() {
-        outerReceiptApi.recordPost({
-            store: this.currStore,
-            pagenum: this.pagenum,
-            pagesize: this.pagesize,
+      outerReceiptApi
+        .recordPost({
+          store: this.currStore,
+          pagenum: this.pagenum,
+          pagesize: this.pagesize,
           searchCode: this.searchCode,
           searchDate: this.searchDate,
-          searchDevName: this.searchDevName
-        }).then(res=>{
-            this.pagetotal = res.pagetotal;
-            this.tableData = res.data
+          searchDevName: this.searchDevName,
         })
+        .then((res) => {
+          if (res.meta.state == 200) {
+            this.pagetotal = res.pagetotal;
+            this.tableData = res.data;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
+        });
     },
 
     // 切换每页条数
@@ -172,7 +192,7 @@ export default {
       // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
-    }
+    },
   },
   watch: {
     //库变化表格也相应更新当前库数据
@@ -182,7 +202,7 @@ export default {
   },
   created() {
     this.initData();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
