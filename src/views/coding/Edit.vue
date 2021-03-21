@@ -91,9 +91,9 @@
 </template>
 
 <script>
-import codingApi from "@/api/coding/coding";
+import { codingApi } from "@/api";
 export default {
-  data() {
+  data () {
     return {
       dialogVisible: false,
       currData: "",
@@ -104,7 +104,7 @@ export default {
     };
   },
   methods: {
-    initData() {
+    initData () {
       codingApi
         .getPost({
           pagenum: this.pagenum,
@@ -119,11 +119,11 @@ export default {
           }
         });
     },
-    editCode(row) {
+    editCode (row) {
       this.currData = row;
       this.dialogVisible = true;
     },
-    editFn() {
+    editFn () {
       this.dialogVisible = false;
       codingApi.editData(this.currData).then((res) => {
         if (res.meta.state == 200) {
@@ -133,7 +133,7 @@ export default {
         }
       });
     },
-    deleteFn(code) {
+    deleteFn (code) {
       this.$confirm("此操作将永久此编码, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -161,31 +161,31 @@ export default {
         });
     },
     // 切换每页条数
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       // console.log(`每页 ${val} 条`);
       this.pagesize = val;
       this.initData();
     },
     // 切换分页
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
     },
-    handleClose(done) {
+    handleClose (done) {
       this.$confirm("确认关闭？")
         .then((_) => {
           done();
         })
-        .catch((_) => {});
+        .catch((_) => { });
     },
   },
   watch: {
-    currStore() {
+    currStore () {
       this.initData();
     },
   },
-  created() {
+  created () {
     this.initData();
   },
 };

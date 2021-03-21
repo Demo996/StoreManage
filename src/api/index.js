@@ -11,40 +11,40 @@ axios.defaults.baseURL = '/api/';
 // 3. 配置-拦截器
 
 // 添加请求拦截器
-axios.interceptors.request.use(function(config) {
+axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // 拦截所有请求  发送之前就加一些东西
 
     // 1. 验证
     let token = localStorage.getItem('token')
     config.headers['token'] = token
-        // 2. 编码
+    // 2. 编码
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-        // 3. loading  TODO. 扫码不需要loading
+    // 3. loading  TODO. 扫码不需要loading
     if (config.url != 'qr/check.php') showLoading()
     console.log(config);
     return config;
-}, function(error) {
+}, function (error) {
     // 对请求错误做些什么
     return Promise.reject(error);
 });
 
 // 添加响应拦截器
-axios.interceptors.response.use(function(response) {
+axios.interceptors.response.use(function (response) {
     // 1. 隐藏loading
     hideLoading()
-        // 2. 提示
-        // if (response.data.meta.msg == 'TOKEN有误') {
-        //     Message({
-        //         showClose: true,
-        //         message: "糟糕TOKEN已过期请重新登录",
-        //         type: "error"
-        //     });
-        //     return router.push({ path: '/login' })
-        // }
-        // 对响应数据做点什么
+    // 2. 提示
+    // if (response.data.meta.msg == 'TOKEN有误') {
+    //     Message({
+    //         showClose: true,
+    //         message: "糟糕TOKEN已过期请重新登录",
+    //         type: "error"
+    //     });
+    //     return router.push({ path: '/login' })
+    // }
+    // 对响应数据做点什么
     return response;
-}, function(error) {
+}, function (error) {
     // 对响应错误做点什么
     return Promise.reject(error);
 });
@@ -77,6 +77,10 @@ import outerReturnApi from './outer/return'
 import outerStatApi from './outer/statistic'
 
 import inventApi from './invent/search'
+import codingApi from './coding/coding'
+import rolesApi from './roles/roles'
+import usersApi from './user/user'
+import loadApi from './load/load'
 
 export {
     goodsCateApi,
@@ -97,5 +101,9 @@ export {
     outerReturnApi,
     outerStatApi,
 
-    inventApi
+    inventApi,
+    codingApi,
+    rolesApi,
+    usersApi,
+    loadApi
 }

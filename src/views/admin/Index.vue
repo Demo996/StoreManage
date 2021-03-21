@@ -75,7 +75,7 @@
 import Breadcrumb from "../../components/Breadcrumb.vue";
 
 // 导入接口
-import userApi from "@/api/user/user";
+import { userApi } from "@/api";
 
 // // 导入VUEX
 // import {mapState} from 'vuex'
@@ -91,7 +91,7 @@ export default {
   components: {
     Breadcrumb,
   },
-  created() {
+  created () {
     let getName = localStorage.getItem("uname");
     userApi
       .getPower({
@@ -121,12 +121,12 @@ export default {
   },
   watch: {
     // 监控路由数据变化重置面包屑
-    $route(newData, oldData) {
+    $route (newData, oldData) {
       this.name1 = newData.meta.name1;
       this.name2 = newData.meta.name2;
     },
   },
-  data() {
+  data () {
     return {
       // uname: localStorage.getItem("uname"),
       // rolename: localStorage.getItem("roleName"),
@@ -145,7 +145,7 @@ export default {
   },
   methods: {
     // 控制菜单隐藏显示
-    changeMenuFn() {
+    changeMenuFn () {
       this.isHiddenMenu = !this.isHiddenMenu;
       this.menuWStyle = this.isHiddenMenu ? "64px" : "200px";
       this.changeMenuIcon = this.isHiddenMenu

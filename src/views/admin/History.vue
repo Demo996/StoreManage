@@ -73,7 +73,7 @@
 </template>
 <script>
 // 导入接口
-import usersApi from "@/api/user/user";
+import {usersApi} from "@/api";
 
 // 导出组件数据
 export default {
