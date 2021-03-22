@@ -5,7 +5,7 @@
       <!-- 标题 -->
       <div slot="header" class="clearfix header">
         <span>用户创建</span>
-        <!-- <el-button type="primary" round @click="jump('/users')">返回</el-button> -->
+        <el-button type="primary" round @click="jump('/user/index')">返回</el-button>
       </div>
 
       <!-- 表单 -->

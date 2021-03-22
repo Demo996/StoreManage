@@ -92,9 +92,15 @@
             size="medium"
             style="width: 100%"
             max-height="700"
+            :row-key="bindRowKeys"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column
+              type="selection"
+              width="55"
+              :reserve-selection="true"
+            >
+            </el-table-column>
             <el-table-column label="编码" prop="编码" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="类型" prop="类型" show-overflow-tooltip>
@@ -125,7 +131,7 @@
       </el-card>
     </el-drawer>
     <!-- /自动填写弹框 -->
-    <el-row>
+    <el-row style="text-align:right;padding:3px">
       <el-button type="primary" class="operate-btn el-icon-plus" @click="addRow"
         >新增</el-button
       >
@@ -245,10 +251,7 @@
           >
             <el-table-column fixed label="产品/设备编号" width="140">
               <template scope="scope">
-                <el-input
-                  v-model="scope.row.devCode"
-                  @click.native="showDrawer"
-                ></el-input>
+                <el-input v-model="scope.row.devCode"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="产品/设备名称" width="140">
@@ -367,7 +370,7 @@
 </template>
 
 <script>
-import codeApi from "@/api/coding/coding";
+import { codingApi } from "@/api";
 import { purchaseApi } from "@/api";
 export default {
   data: function () {
@@ -406,25 +409,7 @@ export default {
           text: "增值税专票",
         },
       ],
-      tableData: [
-        {
-          devCode: "",
-          devName: "",
-          type: "",
-          model: "",
-          size: "",
-          colorShape: "",
-          unit: "",
-          number: 0,
-          price: 0,
-          freight: 0,
-          total: 0,
-          billType: "",
-          purchaseDate: "",
-          purpose: "",
-          notes: "",
-        },
-      ],
+      tableData: [],
       drawer: false, //显示抽屉、提示编码
       drawerTableData: [],
       multipleSelection: [],
@@ -464,24 +449,8 @@ export default {
       this.totalMoney();
     },
     addRow() {
-      let singleObj = {
-        devCode: "",
-        devName: "",
-        type: "",
-        model: "",
-        size: "",
-        colorShape: "",
-        unit: "",
-        number: 0,
-        price: 0,
-        freight: 0,
-        total: 0,
-        billType: "",
-        purchaseDate: "",
-        purpose: "",
-        notes: "",
-      };
-      this.tableData.push(singleObj);
+      this.drawer = true;
+      this.initData();
     },
     saveForm() {
       let mainMsg = {
@@ -524,12 +493,11 @@ export default {
         }
       });
     },
-    showDrawer() {
-      this.drawer = true;
-      this.initData();
+    bindRowKeys(row) {
+      return row["编码"];
     },
     initData() {
-      codeApi
+      codingApi
         .filterCode({
           filterCode: this.filterCode,
           filterType: this.filterType,
@@ -567,39 +535,32 @@ export default {
     },
     codeSure() {
       if (this.multipleSelection) {
-        let tmpObj = {
-          devCode: "",
-          devName: "",
-          type: "",
-          model: "",
-          size: "",
-          colorShape: "",
-          unit: "",
-          number: 0,
-          price: 0,
-          freight: 0,
-          total: 0,
-          billType: "",
-          purchaseDate: "",
-          purpose: "",
-          notes: "",
-        };
         let tmpArr = this.multipleSelection;
         tmpArr.forEach((element) => {
+          let tmpObj = {};
           tmpObj["devCode"] = element["编码"];
           tmpObj["devName"] = element["名称"];
           tmpObj["type"] = element["类型"];
           tmpObj["model"] = element["规格型号"];
           tmpObj["size"] = element["规格型号"];
           tmpObj["colorShape"] = element["颜色形状"];
+          tmpObj["unit"] = "";
+          tmpObj["number"] = "";
+          tmpObj["price"] = 0;
+          tmpObj["freight"] = 0;
+          tmpObj["total"] = 0;
+          tmpObj["billType"] = "";
+          tmpObj["purchaseDate"] = "";
+          tmpObj["purpose"] = "";
+          tmpObj["notes"] = "";
           this.tableData.push(tmpObj);
         });
-        console.log(this.tableData);
         this.multipleSelection = [];
       }
     },
     codeCancle() {
       this.drawer = false;
+      this.$refs.multipleTable.clearSelection();
     },
   },
   watch: {
@@ -609,12 +570,6 @@ export default {
   },
 };
 </script>
-
-<style>
-.el-drawer {
-  width: 40% !important;
-}
-</style>
 
 <style lang="scss" scoped>
 .table-container {
@@ -699,14 +654,6 @@ export default {
         padding: 0px;
       }
     }
-  }
-
-  .operate-btn {
-    float: left;
-    margin: 10px 5px;
-    padding: 0 10px;
-    height: 35px;
-    line-height: 35px;
   }
 }
 </style>

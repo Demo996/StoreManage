@@ -19,7 +19,7 @@
                   </el-option>
                 </el-select></div
             ></el-col>
-            <el-col :span="4"
+            <el-col :span="4" :offset="2"
               ><div class="grid-content bg-purple">
                 <div class="block">
                   <el-date-picker
@@ -31,7 +31,7 @@
                   </el-date-picker>
                 </div></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="5" :offset="2"
               ><div class="grid-content bg-purple">
                 <el-input placeholder="请输入申请单编号" v-model.trim="searchCode" clearable>
                   <el-button
@@ -41,7 +41,7 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="5" :offset="2"
               ><div class="grid-content bg-purple">
                 <el-input placeholder="请输入申报人" v-model.trim="searchApplyMan" clearable>
                   <el-button

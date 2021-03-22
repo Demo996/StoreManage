@@ -328,6 +328,7 @@ export default {
           detail: this.operateArr,
         })
         .then((res) => {
+          console.log(res);
           if (res.meta.state == 200) {
             this.backType = "";
             this.backNum = 0;
@@ -363,6 +364,7 @@ export default {
           pagesize: this.pagesize,
         })
         .then((res) => {
+          console.log(res);
           if (res.meta.state == 200) {
             this.pagetotal = res.pagetotal;
             this.tableData = res.data;

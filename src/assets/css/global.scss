@@ -6,6 +6,9 @@
     thead .cell {
         text-align: center;
     }
+    tbody .cell {
+        text-align: center;
+    }
 }
 
 
@@ -19,4 +22,8 @@
     margin-top: 10px;
     padding-right: 10px;
     box-sizing: border-box;
+}
+
+.el-drawer {
+    width: 40% !important;
 }

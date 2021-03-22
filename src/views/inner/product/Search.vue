@@ -19,7 +19,7 @@
                   </el-option>
                 </el-select></div
             ></el-col>
-            <el-col :span="4"
+            <el-col :span="4" :offset="2"
               ><div class="grid-content bg-purple">
                 <div class="block">
                   <el-date-picker
@@ -31,7 +31,7 @@
                   </el-date-picker>
                 </div></div
             ></el-col>
-            <el-col :span="6"
+            <el-col :span="5" :offset="2"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备编号"
@@ -45,7 +45,7 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
-            <el-col :span="6"
+            <el-col :span="5" :offset="2"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备名称"
@@ -64,6 +64,7 @@
         <div class="text item">
           <el-table
             :data="tableData"
+            :row-class-name="hover_style"
             border
             stripe
             max-height="700"
@@ -141,6 +142,13 @@ export default {
     };
   },
   methods: {
+        hover_style({ row, rowIndex }) {
+      if (rowIndex < 0) {
+        return;
+      } else {
+        return "hover-style";
+      }
+    },
     initData() {
       productSearApi
         .post({

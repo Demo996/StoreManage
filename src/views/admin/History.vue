@@ -3,7 +3,7 @@
     <el-card class="box-card">
       <!-- 标题 -->
       <div slot="header" class="clearfix">
-        <span>访客记录</span>
+        <el-tag style="fontSize:16px;float:left">访客记录</el-tag>
       </div>
 
       <!-- 筛选 -->
@@ -39,7 +39,7 @@
         <el-table-column prop="id" label="编号" align="center" width="120">
         </el-table-column>
         <el-table-column
-          prop="username"
+          prop="user_name"
           label="用户"
           align="center"
           width="120"
@@ -48,7 +48,7 @@
         <el-table-column prop="login_time" align="center" label="登录时间">
         </el-table-column>
         <el-table-column
-          prop="prev_login_time"
+          prop="last_login_time"
           align="center"
           label="上一次登录时间"
         >
@@ -102,6 +102,7 @@ export default {
         })
         .then((res) => {
           // loading
+          console.log(res);
           this.loading = false;
           if (res.meta.state == 200) {
             this.tableData = res.data;

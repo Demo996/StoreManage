@@ -1,5 +1,89 @@
 <template>
   <div class="table-container">
+        <!-- 自动填写弹框 -->
+    <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false">
+      <el-card class="box-card">
+        <div slot="header">
+          <el-row class="search-form" :gutter="20" style="margin-bottom: 10px">
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="请输入编码"
+                  v-model.trim="filterCode"
+                  clearable
+                >
+                </el-input></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-input
+                  placeholder="请输入名称"
+                  v-model.trim="filterName"
+                  clearable
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="initData"
+                  ></el-button>
+                </el-input></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <el-button
+                  type="primary"
+                  style="margin-right: 10px"
+                  @click="msgFill"
+                  >确 定</el-button
+                >
+                <el-button type="info" @click="cancle">取 消</el-button>
+              </div></el-col
+            >
+          </el-row>
+        </div>
+        <div class="text item">
+          <el-table
+            :data="drawerTableData"
+            ref="multipleTable"
+            size="medium"
+            style="width: 100%"
+            max-height="700"
+            :row-key="bindRowKeys"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column type="selection" width="55" :reserve-selection="true"></el-table-column>
+            <el-table-column label="产品/设备编码" prop="产品/设备编码" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="产品/设备名称" prop="产品/设备名称" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="类型" prop="类型" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="型号" prop="型号" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="规格" prop="规格" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="颜色/形状" prop="颜色/形状">
+            </el-table-column>
+            <el-table-column label="单位" prop="单位">
+            </el-table-column>
+            <el-table-column label="数量" prop="库存量">
+            </el-table-column>
+          </el-table>
+          <!-- 分页 -->
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pagenum"
+            :page-sizes="[5, 10, 20, 30]"
+            :page-size="pagesize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="pagetotal"
+          >
+          </el-pagination>
+        </div>
+      </el-card>
+    </el-drawer>
+    <!-- /自动填写弹框 -->
     <el-card class="box-card">
       <div slot="header" class="header">
         <el-tag style="fontsize: 16px">领用登记</el-tag>
@@ -128,42 +212,12 @@
 </template>
 
 <script>
+import { inventApi } from "@/api";
 import { outerReceiptApi } from "@/api";
 export default {
   data: function () {
     return {
-      storeArea: [
-        {
-          id: 1,
-          text: "设备类",
-          title: "devicestorege",
-        },
-        {
-          id: 2,
-          text: "电子产品类",
-          title: "elecprostorege",
-        },
-        {
-          id: 3,
-          text: "养护产品类",
-          title: "carcarestorege",
-        },
-        {
-          id: 4,
-          text: "工具类",
-          title: "toolstorege",
-        },
-        {
-          id: 5,
-          text: "日常用品类",
-          title: "dailystorege",
-        },
-        {
-          id: 6,
-          text: "备用类",
-          title: "reservestorege",
-        },
-      ],
+      storeArea: [],
       tableData: [
         {
           devCode: "",
@@ -181,6 +235,14 @@ export default {
           store: "",
         },
       ],
+      drawer: false, //显示抽屉、提示编码
+      drawerTableData: [],
+      multipleSelection: [],
+      pagenum: 1,
+      pagesize: 10,
+      pagetotal: 100,
+      filterCode: "",
+      filterName:""
     };
   },
   methods: {
@@ -188,22 +250,8 @@ export default {
       this.tableData.splice(index, 1);
     },
     addRow() {
-      let singleObj = {
-        devCode: "",
-        devName: "",
-        type: "",
-        model: "",
-        size: "",
-        colorShape: "",
-        unit: "",
-        number: 0,
-        receiptMan: "",
-        outMan: "",
-        outDate: "",
-        notes: "",
-        store: "",
-      };
-      this.tableData.push(singleObj);
+      this.drawer = true;
+      this.initData();
     },
     saveRow(index) {
       let tmpObj = this.tableData[index];
@@ -228,6 +276,70 @@ export default {
             this.$message.error(res.meta.msg);
           }
         });
+    },
+        bindRowKeys(row) {
+      return row["编码"]
+    },
+    msgFill() {
+      if (this.multipleSelection) {
+        let tmpArr = this.multipleSelection;
+        tmpArr.forEach((element) => {
+          let tmpObj = {}
+          tmpObj["devCode"] = element["产品/设备编码"];
+          tmpObj["devName"] = element["产品/设备名称"];
+          tmpObj["type"] = element["类型"];
+          tmpObj["model"] = element["型号"];
+          tmpObj["size"] = element["规格"];
+          tmpObj["colorShape"] = element["颜色/形状"];
+
+          tmpObj["unit"] = ""
+          tmpObj["number"] = ""
+          tmpObj["receiptMan"] = ""
+          tmpObj["outMan"] = ""
+          tmpObj["outDate"] = ""
+          tmpObj["notes"] = ""
+          tmpObj["store"] = ""
+          this.tableData.push(tmpObj)
+        });
+        this.multipleSelection = [];
+      }
+    },
+    cancle(){
+            this.drawer = false;
+      this.$refs.multipleTable.clearSelection()
+    },
+    initData() {
+      inventApi
+        .filter({
+          filterCode: this.filterCode,
+          filterName: this.filterName,
+          pagenum: this.pagenum,
+          pagesize: this.pagesize
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.meta.state == 200) {
+            this.drawerTableData = res.data;
+            this.pagetotal = res.pagetotal;
+          } else {
+            this.$message.error(res.meta.msg);
+          }
+        });
+    },
+    handleSizeChange(val) {
+      // console.log(`每页 ${val} 条`);
+      this.pagesize = val;
+      this.initData();
+    },
+    // 切换分页
+    handleCurrentChange(val) {
+      // console.log(`当前页: ${val}`);
+      this.pagenum = val;
+      this.initData();
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      console.log(this.multipleSelection);
     },
   },
 };

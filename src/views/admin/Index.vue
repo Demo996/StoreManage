@@ -14,6 +14,8 @@
         :collapse-transition="false"
         background-color="#263445"
         text-color="rgb(191, 203, 217)"
+        style="text-align:left"
+        :unique-opened = "true"
       >
         <el-submenu
           v-for="firstItem in menus"
@@ -53,8 +55,8 @@
         </div>
         <div class="r">
           <span>{{ uname }}（{{ rolename }}）</span>
-          <i class="el-icon-switch-button"></i>
-          <i class="el-icon-full-screen"></i>
+          <i class="el-icon-switch-button" @click="loginOut"></i>
+          <i class="el-icon-full-screen" @click="screen"></i>
         </div>
       </div>
       <!-- /顶部 -->
@@ -73,9 +75,10 @@
 <script>
 // 导入面包屑组件
 import Breadcrumb from "../../components/Breadcrumb.vue";
+import screenfull from 'screenfull'
 
 // 导入接口
-import { userApi } from "@/api";
+import { usersApi } from "@/api";
 
 // // 导入VUEX
 // import {mapState} from 'vuex'
@@ -93,7 +96,7 @@ export default {
   },
   created () {
     let getName = localStorage.getItem("uname");
-    userApi
+    usersApi
       .getPower({
         uname: getName,
       })
@@ -128,10 +131,10 @@ export default {
   },
   data () {
     return {
-      // uname: localStorage.getItem("uname"),
-      // rolename: localStorage.getItem("roleName"),
-      uname: "dinglei",
-      rolename: "管理员",
+      uname: localStorage.getItem("uname"),
+      rolename: localStorage.getItem("roleName"),
+      // uname: "dinglei",
+      // rolename: "管理员",
       // 菜单
       menuLoading: false,
       menus: [],
@@ -152,6 +155,13 @@ export default {
         ? "el-icon-s-unfold"
         : "el-icon-s-fold";
     },
+    screen() {
+      screenfull.toggle()
+    },
+    loginOut() {
+      this.$router.push("/login")
+      localStorage.removeItem("token")
+    }
   },
 };
 </script>
@@ -190,7 +200,7 @@ export default {
       overflow: hidden;
       margin-bottom: 15px;
       -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-      box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+      box-shadow: 0 1px 4px rgba(0, 21, 41, 0.3);
       .l {
         float: left;
         width: 300px;

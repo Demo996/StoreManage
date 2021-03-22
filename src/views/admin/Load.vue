@@ -87,9 +87,10 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           loadApi.post(this.formData).then(res => {
+            console.log(res);
             if (res.meta.state == 200) {
               this.$message.success('登录成功');
-              this.$router.push({ path: '/' })
+              this.$router.push({ path: '/first/welcome' })
 
               localStorage.setItem("uname", res.user)
               localStorage.setItem("role", res.role)
