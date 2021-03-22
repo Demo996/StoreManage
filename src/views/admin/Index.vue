@@ -98,7 +98,6 @@ export default {
         uname: getName,
       })
       .then((res) => {
-        console.log(res);
         if (res.meta.state == 200) {
           this.menus = res.data;
         } else {
@@ -128,10 +127,10 @@ export default {
   },
   data() {
     return {
-      // uname: localStorage.getItem("uname"),
-      // rolename: localStorage.getItem("roleName"),
-      uname: "dinglei",
-      rolename: "管理员",
+      uname: localStorage.getItem("uname"),
+      rolename: localStorage.getItem("roleName"),
+      // uname: "dinglei",
+      // rolename: "管理员",
       // 菜单
       menuLoading: false,
       menus: [],

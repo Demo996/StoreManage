@@ -78,6 +78,8 @@ import outerStatApi from './outer/statistic'
 
 import inventApi from './invent/search'
 
+import loadApi from './load'
+
 export {
     goodsCateApi,
     goodsTypeApi,
@@ -97,5 +99,6 @@ export {
     outerReturnApi,
     outerStatApi,
 
-    inventApi
+    inventApi,
+    loadApi
 }

@@ -44,7 +44,7 @@
     </div>
 </template>
 <script>
-import loadApi from '@/api/load'
+import {loadApi} from '@/api'
 export default {
     data() {
         return {
