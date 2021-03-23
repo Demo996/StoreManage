@@ -14,6 +14,8 @@
         :collapse-transition="false"
         background-color="#263445"
         text-color="rgb(191, 203, 217)"
+        style="text-align:left"
+        :unique-opened = "true"
       >
         <el-submenu
           v-for="firstItem in menus"
@@ -53,8 +55,8 @@
         </div>
         <div class="r">
           <span>{{ uname }}（{{ rolename }}）</span>
-          <i class="el-icon-switch-button"></i>
-          <i class="el-icon-full-screen"></i>
+          <i class="el-icon-switch-button" @click="loginOut"></i>
+          <i class="el-icon-full-screen" @click="screen"></i>
         </div>
       </div>
       <!-- /顶部 -->
@@ -73,9 +75,10 @@
 <script>
 // 导入面包屑组件
 import Breadcrumb from "../../components/Breadcrumb.vue";
+import screenfull from 'screenfull'
 
 // 导入接口
-import userApi from "@/api/user/user";
+import { usersApi } from "@/api";
 
 // // 导入VUEX
 // import {mapState} from 'vuex'
@@ -91,9 +94,9 @@ export default {
   components: {
     Breadcrumb,
   },
-  created() {
+  created () {
     let getName = localStorage.getItem("uname");
-    userApi
+    usersApi
       .getPower({
         uname: getName,
       })
@@ -120,17 +123,15 @@ export default {
   },
   watch: {
     // 监控路由数据变化重置面包屑
-    $route(newData, oldData) {
+    $route (newData, oldData) {
       this.name1 = newData.meta.name1;
       this.name2 = newData.meta.name2;
     },
   },
-  data() {
+  data () {
     return {
       uname: localStorage.getItem("uname"),
-      rolename: localStorage.getItem("roleName"),
-      // uname: "dinglei",
-      // rolename: "管理员",
+      rolename: localStorage.getItem("role"),
       // 菜单
       menuLoading: false,
       menus: [],
@@ -144,17 +145,25 @@ export default {
   },
   methods: {
     // 控制菜单隐藏显示
-    changeMenuFn() {
+    changeMenuFn () {
       this.isHiddenMenu = !this.isHiddenMenu;
       this.menuWStyle = this.isHiddenMenu ? "64px" : "200px";
       this.changeMenuIcon = this.isHiddenMenu
         ? "el-icon-s-unfold"
         : "el-icon-s-fold";
     },
+    screen() {
+      screenfull.toggle()
+    },
+    loginOut() {
+      this.$router.push("/login")
+      localStorage.removeItem("token")
+    }
   },
 };
 </script>
 
+</style>
 <style lang="scss" scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
@@ -189,7 +198,7 @@ export default {
       overflow: hidden;
       margin-bottom: 15px;
       -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-      box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+      box-shadow: 0 1px 4px rgba(0, 21, 41, 0.3);
       .l {
         float: left;
         width: 300px;
@@ -238,7 +247,7 @@ export default {
       }
     } // 内容
     .content {
-      width: 96%;
+      width: 98%;
       height: auto;
       min-height: 100px;
       margin: auto; // overflow-x: hidden;

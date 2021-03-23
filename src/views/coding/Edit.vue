@@ -1,6 +1,10 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
+      <export-excel
+        style="float: right"
+        @getResult="getMyExcelData"
+      ></export-excel>
       <el-dialog
         :visible.sync="dialogVisible"
         width="30%"
@@ -45,7 +49,13 @@
       </el-dialog>
     </div>
     <div class="text item">
-      <el-table :data="tableData" border stripe style="width: 100%">
+      <el-table
+        id="mytable"
+        :data="tableData"
+        border
+        stripe
+        style="width: 100%"
+      >
         <el-table-column
           label="序号"
           type="index"
@@ -91,8 +101,10 @@
 </template>
 
 <script>
-import codingApi from "@/api/coding/coding";
+import exportExcel from "@/components/Export_excel";
+import { codingApi } from "@/api";
 export default {
+  components: { exportExcel },
   data() {
     return {
       dialogVisible: false,
@@ -104,6 +116,9 @@ export default {
     };
   },
   methods: {
+    getMyExcelData(obj) {
+      return obj;
+    },
     initData() {
       codingApi
         .getPost({

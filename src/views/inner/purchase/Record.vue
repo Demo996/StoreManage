@@ -1,11 +1,6 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <el-tag style="float: left">审核入库记录</el-tag>
-    </div>
-    <div class="text item">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
           <el-row class="search-form" :gutter="20">
             <el-col :span="4"
               ><div class="grid-content bg-purple">
@@ -19,7 +14,7 @@
                   </el-option>
                 </el-select></div
             ></el-col>
-            <el-col :span="4"
+            <el-col :span="4" :offset="2"
               ><div class="grid-content bg-purple">
                 <div class="block">
                   <el-date-picker
@@ -31,7 +26,7 @@
                   </el-date-picker>
                 </div></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="5" :offset="2"
               ><div class="grid-content bg-purple">
                 <el-input placeholder="请输入申请单编号" v-model.trim="searchCode" clearable>
                   <el-button
@@ -41,7 +36,7 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
-            <el-col :span="8"
+            <el-col :span="5" :offset="2"
               ><div class="grid-content bg-purple">
                 <el-input placeholder="请输入申报人" v-model.trim="searchApplyMan" clearable>
                   <el-button
@@ -171,8 +166,6 @@
           <!-- /分页 -->
         </div>
       </el-card>
-    </div>
-  </el-card>
 </template>
 
 <script>
@@ -258,25 +251,21 @@ export default {
     },
     // 切换每页条数
     handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
       this.pagesize = val;
       this.initData();
     },
     // 切换分页
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
     },
     // 切换每页条数
     handleSizeChangeChild(val) {
-      // console.log(`每页 ${val} 条`);
       this.pagesizeChild = val;
       this.initChildData();
     },
     // 切换分页
     handleCurrentChangeChild(val) {
-      // console.log(`当前页: ${val}`);
       this.pagenumChild = val;
       this.initChildData();
     },

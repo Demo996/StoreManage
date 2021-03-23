@@ -1,9 +1,9 @@
 <template>
   <div class="table-container">
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span style="float: left">正常退还操作</span>
+      <div slot="header" class="header">
         <el-row>
+          <el-tag style="fontsize: 16px">正常退还操作</el-tag>
           <el-button
             type="primary"
             class="operate-btn el-icon-plus"
@@ -18,37 +18,37 @@
           <el-table :data="tableData" style="width: 100%" max-height="600">
             <el-table-column fixed label="产品/设备编号" width="140">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.devCode"></el-input>
+                <el-input v-model="scope.row.devCode"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="产品/设备名称" width="140">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.devName"></el-input>
+                <el-input v-model="scope.row.devName"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="类型" width="100">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.type"></el-input>
+                <el-input v-model="scope.row.type"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="型号" width="100">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.model"></el-input>
+                <el-input v-model="scope.row.model"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="规格" width="100">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.size"></el-input>
+                <el-input v-model="scope.row.size"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="颜色/形状" :resizable="true">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.colorShape"></el-input>
+                <el-input v-model="scope.row.colorShape"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="单位" :resizable="true">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.unit"></el-input>
+                <el-input v-model="scope.row.unit"></el-input>
               </template>
             </el-table-column>
 
@@ -64,7 +64,7 @@
 
             <el-table-column label="退还人" width="80">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.backMan"></el-input>
+                <el-input v-model="scope.row.backMan"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="退还日期" width="140">
@@ -83,7 +83,7 @@
 
             <el-table-column label="入库员" width="80">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.inputMan"></el-input>
+                <el-input v-model="scope.row.inputMan"></el-input>
               </template>
             </el-table-column>
 
@@ -102,7 +102,7 @@
             </el-table-column>
             <el-table-column label="备注" width="125">
               <template scope="scope">
-                <el-input clearable v-model="scope.row.notes"></el-input>
+                <el-input v-model="scope.row.notes"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="选择库" width="120">
@@ -247,19 +247,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.el-table td .cell {
-  padding: 2px;
-  .el-input {
-    width: 100%;
-    height: 100%;
-  }
-}
-</style>
 <style lang="scss" scoped>
 .table-container {
   height: 100%;
   background-color: #f0f2f5;
+
+  .header {
+    text-align: left;
+    .el-button {
+      float: right;
+      margin-top: -5px;
+    }
+  }
 
   //el-card样式
   .text {
@@ -276,8 +275,6 @@ export default {
 
   .data-table {
     width: 100%;
-    padding: 10px;
-    margin-top: 20px;
     background-color: #fff;
 
     .table {
@@ -296,15 +293,6 @@ export default {
         padding: 0px;
       }
     }
-  }
-
-  .operate-btn {
-    float: right;
-    width: 100px;
-    height: 50px;
-    font-size: 16px;
-    margin-right: 50px;
-    vertical-align: middle;
   }
 }
 </style>

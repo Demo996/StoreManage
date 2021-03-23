@@ -2,18 +2,35 @@
   <div class="kg-http404-container">
     <div class="kg-http404">
       <div class="pic-404">
-        <img class="pic-404__parent" src="@/assets/imgs/404.png" alt="404">
-        <img class="pic-404__child left" src="@/assets/imgs/404_cloud.png" alt="404">
-        <img class="pic-404__child mid" src="@/assets/imgs/404_cloud.png" alt="404">
-        <img class="pic-404__child right" src="@/assets/imgs/404_cloud.png" alt="404">
-      </div> 
+        <img class="pic-404__parent" src="@/assets/imgs/404.png" alt="404" />
+        <img
+          class="pic-404__child left"
+          src="@/assets/imgs/404_cloud.png"
+          alt="404"
+        />
+        <img
+          class="pic-404__child mid"
+          src="@/assets/imgs/404_cloud.png"
+          alt="404"
+        />
+        <img
+          class="pic-404__child right"
+          src="@/assets/imgs/404_cloud.png"
+          alt="404"
+        />
+      </div>
       <div class="bullshit">
         <div class="bullshit__oops">404!</div>
-        <div class="bullshit__info">All rights reserved
-          <a style="color:#20a0ff" href="http://zhaodashen.cn" target="_blank">zhaodashen.cn</a>
+        <div class="bullshit__info">
+          All rights reserved
+          <a style="color: #20a0ff" href="http://www.baidu.com" target="_blank"
+            >zhaodashen.cn</a
+          >
         </div>
         <div class="bullshit__headline">{{ message }}</div>
-        <div class="bullshit__info">人在旅途，难免迷路，好在你有找大神。.</div>
+        <div class="bullshit__info">
+          人在旅途，难免迷路，have trouble call MR.DL。.
+        </div>
         <a href="/" class="bullshit__return-home">Back to home</a>
       </div>
     </div>
@@ -25,7 +42,7 @@
 export default {
   name: 'Page404',
   computed: {
-    message() {
+    message () {
       return '404...'
     }
   }
@@ -33,8 +50,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.kg-http404-container{
-  transform: translate(-50%,-50%);
+.kg-http404-container {
+  transform: translate(-50%, -50%);
   position: absolute;
   top: 40%;
   left: 50%;

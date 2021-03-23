@@ -1,11 +1,6 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="header">
-      <el-tag style="fontSize:16px">入库统计</el-tag>
-    </div>
-    <div class="text item">
-      <el-card class="box-card">
-        <div slot="header">
           <el-row class="search-form" :gutter="20">
             <el-col :span="4"
               ><div class="grid-content bg-purple">
@@ -31,7 +26,7 @@
                   </el-date-picker>
                 </div></div
             ></el-col>
-            <el-col :span="6" :offset="1"
+            <el-col :span="5" :offset="1"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备编号"
@@ -45,7 +40,7 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
-            <el-col :span="6" :offset="2"
+            <el-col :span="5" :offset="1"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备名称"
@@ -59,32 +54,62 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
+            <el-col :span="2" :offset="1"
+              ><div class="grid-content bg-purple">
+                <export-excel  @getResult="getMyExcelData" ></export-excel>
+                </div
+            ></el-col>
           </el-row>
-        </div>
+    </div>
         <div class="text item">
-          <el-table :data="tableData" border stripe style="width: 100%" :row-class-name="hover_style">
+          <el-table
+          id="mytable"
+            :data="tableData"
+            border
+            stripe
+            max-height="700"
+            style="width: 100%"
+            :row-class-name="hover_style"
+          >
             <el-table-column
               label="序号"
               type="index"
               show-overflow-tooltip
               width="50"
-              max-height="700"
             >
             </el-table-column>
-            <el-table-column label="产品/设备编码" prop="产品/设备编码" show-overflow-tooltip>
+            <el-table-column
+              label="产品/设备编码"
+              prop="产品/设备编码"
+              show-overflow-tooltip
+            >
             </el-table-column>
-            <el-table-column label="产品/设备名称" prop="产品/设备名称" show-overflow-tooltip>
+            <el-table-column
+              label="产品/设备名称"
+              prop="产品/设备名称"
+              show-overflow-tooltip
+            >
             </el-table-column>
-            <el-table-column label="类型" prop="类型" show-overflow-tooltip> </el-table-column>
-            <el-table-column label="型号" prop="型号" show-overflow-tooltip> </el-table-column>
-            <el-table-column label="规格" prop="规格" show-overflow-tooltip> </el-table-column>
-            <el-table-column label="颜色/形状" prop="颜色/形状" show-overflow-tooltip>
+            <el-table-column label="类型" prop="类型" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="单位" prop="单位" width="80"> </el-table-column>
-            <el-table-column label="数量" prop="数量" width="80"> </el-table-column>
-            <el-table-column label="入库员" prop="入库员"> </el-table-column>
-            <el-table-column label="入库日期" prop="入库日期">
+            <el-table-column label="型号" prop="型号" show-overflow-tooltip>
             </el-table-column>
+            <el-table-column label="规格" prop="规格" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="颜色/形状" prop="颜色/形状">
+            </el-table-column>
+            <el-table-column label="单位" prop="单位"> </el-table-column>
+
+            <el-table-column label="数量" prop="数量"> </el-table-column>
+
+            <el-table-column label="领用人" prop="领用人"> </el-table-column>
+            <el-table-column label="出库人" prop="出库人"> </el-table-column>
+            <el-table-column label="出库日期" prop="出库日期">
+            </el-table-column>
+
+            <el-table-column label="备注" prop="备注" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="操作员" prop="操作员"> </el-table-column>
           </el-table>
           <!-- 分页 -->
           <el-pagination
@@ -99,13 +124,14 @@
           </el-pagination>
         </div>
       </el-card>
-    </div>
-  </el-card>
 </template>
 
+
 <script>
-import { innerStatApi } from "@/api";
+import exportExcel from '@/components/Export_excel'
+import { outerReceiptApi } from "@/api";
 export default {
+  components: { exportExcel },
   data() {
     return {
       tableData: [],
@@ -119,15 +145,19 @@ export default {
         { id: 5, text: "日常用品类", title: "dailystorege" },
         { id: 6, text: "备用类", title: "reservestorege" },
       ],
+      // 分页
       pagenum: 1,
       pagesize: 10,
       pagetotal: 100,
       searchDate: "",
-      searchCode:"",
-      searchDevName: ""
+      searchCode: "",
+      searchDevName: "",
     };
   },
   methods: {
+    getMyExcelData(obj) {
+      return obj
+    },
     hover_style({ row, rowIndex }) {
       if (rowIndex < 0) {
         return;
@@ -136,24 +166,25 @@ export default {
       }
     },
     initData() {
-      innerStatApi
-        .post({
+      outerReceiptApi
+        .recordPost({
           store: this.currStore,
           pagenum: this.pagenum,
           pagesize: this.pagesize,
           searchCode: this.searchCode,
           searchDate: this.searchDate,
-          searchDevName: this.searchDevName
+          searchDevName: this.searchDevName,
         })
         .then((res) => {
-          if(res.meta.state == 200) {
-              this.tableData = res.data;
-              this.pagetotal = res.pagetotal;
+          if (res.meta.state == 200) {
+            this.pagetotal = res.pagetotal;
+            this.tableData = res.data;
           } else {
-            this.$message.error(res.meta.msg)
+            this.$message.error(res.meta.msg);
           }
         });
     },
+
     // 切换每页条数
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
@@ -168,6 +199,7 @@ export default {
     },
   },
   watch: {
+    //库变化表格也相应更新当前库数据
     currStore() {
       this.initData();
     },
@@ -178,22 +210,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.box-card {
-  width: 100%;
-
-  .header {
-    text-align: left;
-  }
-  .el-select {
-    float: left;
-  }
-
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
+.header {
+  text-align: left;
 }
 </style>

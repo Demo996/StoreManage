@@ -1,12 +1,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="header">
-      <el-tag style="fontsize: 16px">入库统计</el-tag>
-    </div>
-    <div class="text item">
-      <el-card class="box-card">
-        <div slot="header">
-          <el-row class="search-form" :gutter="20">
+      <el-row class="search-form" :gutter="20">
             <el-col :span="4"
               ><div class="grid-content bg-purple">
                 <el-select v-model="currStore" placeholder="请选择仓库">
@@ -31,7 +26,7 @@
                   </el-date-picker>
                 </div></div
             ></el-col>
-            <el-col :span="6" :offset="1"
+            <el-col :span="5" :offset="1"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备编号"
@@ -45,7 +40,7 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
-            <el-col :span="6" :offset="2"
+            <el-col :span="5" :offset="1"
               ><div class="grid-content bg-purple">
                 <el-input
                   placeholder="请输入产品/设备名称"
@@ -59,10 +54,16 @@
                   ></el-button>
                 </el-input></div
             ></el-col>
+               <el-col :span="2" :offset="1"
+              ><div class="grid-content bg-purple">
+                <export-excel  @getResult="getMyExcelData" ></export-excel>
+                </div
+            ></el-col>
           </el-row>
         </div>
         <div class="text item">
           <el-table
+          id="mytable"
             :data="tableData"
             border
             stripe
@@ -119,13 +120,13 @@
           </el-pagination>
         </div>
       </el-card>
-    </div>
-  </el-card>
 </template>
 
 <script>
 import { outerStatApi } from "@/api";
+import exportExcel from '@/components/Export_excel'
 export default {
+  components: { exportExcel },
   data() {
     return {
       tableData: [],
@@ -148,6 +149,9 @@ export default {
     };
   },
   methods: {
+    getMyExcelData(obj) {
+      return obj
+    },
     hover_style({ row, rowIndex }) {
       if (rowIndex < 0) {
         return;

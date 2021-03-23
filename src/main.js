@@ -9,7 +9,7 @@ import '@/utils/mixin.js'
 import '@/utils/filters.js'
 
 // import '~@/assets/css/reset.css'
-// import '~@/assets/css/transition.css'
+import './assets/css/transition.css'
 import './assets/css/global.scss'
 
 // 模块 网站动画 animated

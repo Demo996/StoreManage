@@ -336,7 +336,6 @@ export default {
       }
     },
     check(row, event, column) {
-      // console.log(row);
       this.checkArr = row;
       this.maxNum = parseInt(row["数量"]);
       this.dialogVisible = true;
@@ -377,7 +376,6 @@ export default {
         detailMsg: this.checkArr,
       };
 
-      // console.log(postObj);
       innerApi.checkIn(postObj).then((res) => {
         if (res.meta.state == 200) {
           this.checkArr["数量"] = remainNum;
@@ -399,13 +397,11 @@ export default {
     },
     // 切换每页条数
     handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
       this.pagesize = val;
       this.initData();
     },
     // 切换分页
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
     },
@@ -428,7 +424,6 @@ export default {
         pagesize: this.pagesizeChild
         })
         .then((res) => {
-          console.log(res);
           this.tableChildData = res.data;
           this.pagetotalChild = res.pagetotal
         });
@@ -448,7 +443,6 @@ export default {
         pagenum: this.pagenumChild,
         pagesize: this.pagesizeChild
       }).then((res) => {
-        console.log(res);
         this.tableChildData = res.data;
         this.pagetotalChild = res.pagetotal
       });

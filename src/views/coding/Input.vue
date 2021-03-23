@@ -40,9 +40,9 @@
 </template>
 <script>
 import inputExcel from "@/components/Xlsx";
-import codingApi from "@/api/coding/coding";
+import { codingApi } from "@/api";
 export default {
-  data() {
+  data () {
     return {
       tableData: [],
       disabled: true,
@@ -52,14 +52,14 @@ export default {
     inputExcel,
   },
   methods: {
-    getMyExcelData(data) {
+    getMyExcelData (data) {
       if (data) {
         this.tableData = data;
         this.disabled = false;
       }
       // data 为读取的excel数据，在这里进行处理该数据
     },
-    importData() {
+    importData () {
       codingApi.importData(this.tableData).then((res) => {
         if (res.meta.state == 200) {
           this.$message.success("提交成功");

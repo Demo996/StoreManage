@@ -7,12 +7,20 @@
           <el-row class="search-form" :gutter="20" style="margin-bottom: 10px">
             <el-col :span="8"
               ><div class="grid-content bg-purple">
-                <el-input placeholder="请输入编码" v-model.trim="filterCode">
+                <el-input
+                  placeholder="请输入编码"
+                  v-model.trim="filterCode"
+                   
+                >
                 </el-input></div
             ></el-col>
             <el-col :span="8"
               ><div class="grid-content bg-purple">
-                <el-input placeholder="请输入名称" v-model.trim="filterName">
+                <el-input
+                  placeholder="请输入名称"
+                  v-model.trim="filterName"
+                   
+                >
                   <el-button
                     slot="append"
                     icon="el-icon-search"
@@ -88,102 +96,73 @@
     <!-- /自动填写弹框 -->
     <el-card class="box-card">
       <div slot="header" class="header">
-        <el-tag style="fontSize: 16px">销售出库</el-tag>
-        <el-button
-          type="primary"
-          class="operate-btn el-icon-plus"
-          @click="addRow"
-          round
-          >新增</el-button
+        <el-tag style="fontSize: 16px">领用登记</el-tag>
+        <el-button type="primary" round class="el-icon-plus" @click="addRow">
+          新增</el-button
         >
       </div>
       <div class="text item">
         <div class="data-table">
-          <el-table :data="tableData" style="width: 100%" max-height="600">
+          <el-table
+            :data="tableData"
+            size="medium"
+            style="width: 100%"
+            max-height="600"
+          >
             <el-table-column fixed label="产品/设备编号" width="140">
               <template scope="scope">
-                <el-input v-model="scope.row.devCode"></el-input>
+                <el-input   v-model="scope.row.devCode"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="产品/设备名称" width="140">
               <template scope="scope">
-                <el-input v-model="scope.row.devName"></el-input>
+                <el-input   v-model="scope.row.devName"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="类型" width="100">
               <template scope="scope">
-                <el-input v-model="scope.row.type"></el-input>
+                <el-input   v-model="scope.row.type"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="型号" width="100">
               <template scope="scope">
-                <el-input v-model="scope.row.model"></el-input>
+                <el-input   v-model="scope.row.model"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="规格" width="100">
               <template scope="scope">
-                <el-input v-model="scope.row.size"></el-input>
+                <el-input   v-model="scope.row.size"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="颜色/形状" :resizable="true">
               <template scope="scope">
-                <el-input v-model="scope.row.colorShape"></el-input>
+                <el-input   v-model="scope.row.colorShape"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="单位" :resizable="true">
               <template scope="scope">
-                <el-input v-model="scope.row.unit"></el-input>
+                <el-input   v-model="scope.row.unit"></el-input>
               </template>
             </el-table-column>
-
             <el-table-column label="数量" width="80">
               <template scope="scope">
                 <el-input
                   type="number"
                   min="0"
                   v-model="scope.row.number"
-                  @change="calcMoney(scope.$index)"
                 ></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="单价" width="80">
+            <el-table-column label="领用人" width="80">
               <template scope="scope">
-                <el-input
-                  type="number"
-                  min="0"
-                  v-model="scope.row.price"
-                  @change="calcMoney(scope.$index)"
-                ></el-input>
+                <el-input   v-model="scope.row.receiptMan"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="总额" width="80">
-              <template scope="scope">
-                <el-input readonly v-model="scope.row.total"></el-input>
-              </template>
-            </el-table-column>
-
             <el-table-column label="出库人" width="80">
               <template scope="scope">
-                <el-input v-model="scope.row.outMan"></el-input>
+                <el-input   v-model="scope.row.outMan"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="送货人" width="80">
-              <template scope="scope">
-                <el-input v-model="scope.row.deliver"></el-input>
-              </template>
-            </el-table-column>
-
-            <el-table-column label="客户名称" width="80">
-              <template scope="scope">
-                <el-input v-model="scope.row.client"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column label="签收人" width="80">
-              <template scope="scope">
-                <el-input v-model="scope.row.signer"></el-input>
-              </template>
-            </el-table-column>
-
             <el-table-column label="出库日期" width="140">
               <template scope="scope">
                 <div class="block">
@@ -199,10 +178,10 @@
             </el-table-column>
             <el-table-column label="备注" width="125">
               <template scope="scope">
-                <el-input v-model="scope.row.notes"></el-input>
+                <el-input   v-model="scope.row.notes"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="选择库" width="120">
+            <el-table-column label="选择库" width="140">
               <template scope="scope">
                 <el-select v-model="scope.row.store" placeholder="请选择">
                   <el-option
@@ -216,11 +195,11 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="操作" width="160">
+            <el-table-column label="操作" width="140">
               <template slot-scope="scope">
                 <el-button
-                  style="margin-left: 5px"
                   @click.native.prevent="saveRow(scope.$index)"
+                  style="margin-left: 5px"
                   type="primary"
                   size="small"
                 >
@@ -243,42 +222,18 @@
 </template>
 
 <script>
-import { outerSalesApi } from "@/api";
 import { inventApi } from "@/api";
+import { outerReceiptApi } from "@/api";
 export default {
   data: function () {
     return {
       storeArea: [
-        {
-          id: 1,
-          text: "设备类",
-          title: "devicestorege",
-        },
-        {
-          id: 2,
-          text: "电子产品类",
-          title: "elecprostorege",
-        },
-        {
-          id: 3,
-          text: "养护产品类",
-          title: "carcarestorege",
-        },
-        {
-          id: 4,
-          text: "工具类",
-          title: "toolstorege",
-        },
-        {
-          id: 5,
-          text: "日常用品类",
-          title: "dailystorege",
-        },
-        {
-          id: 6,
-          text: "备用类",
-          title: "reservestorege",
-        },
+        { id: 1, text: "设备类", title: "devicestorege" },
+        { id: 2, text: "电子产品类", title: "elecprostorege" },
+        { id: 3, text: "养护产品类", title: "carcarestorege" },
+        { id: 4, text: "工具类", title: "toolstorege" },
+        { id: 5, text: "日常用品类", title: "dailystorege" },
+        { id: 6, text: "备用类", title: "reservestorege" },
       ],
       tableData: [],
       drawer: false, //显示抽屉、提示编码
@@ -292,12 +247,6 @@ export default {
     };
   },
   methods: {
-    calcMoney(index) {
-      let tmp = this.tableData[index];
-      let num1 = parseInt(tmp.number);
-      let num2 = parseFloat(tmp.price);
-      tmp.total = num1 * num2;
-    },
     deleteRow(index) {
       this.tableData.splice(index, 1);
     },
@@ -307,6 +256,7 @@ export default {
     },
     saveRow(index) {
       let tmpObj = this.tableData[index];
+      let operator = localStorage.getItem("uname");
 
       for (let key in tmpObj) {
         if (tmpObj[key] == "") {
@@ -314,12 +264,10 @@ export default {
           return;
         }
       }
-
-      let operator = localStorage.getItem("uname");
-      outerSalesApi
-        .salesPost({
-          operator: operator,
+      outerReceiptApi
+        .receiptPost({
           data: tmpObj,
+          operator: operator,
         })
         .then((res) => {
           if (res.meta.state == 200) {
@@ -347,16 +295,9 @@ export default {
 
           tmpObj["unit"] = "";
           tmpObj["number"] = 0;
-
-          tmpObj["price"] = 0.0;
-          tmpObj["total"] = 0.0;
+          tmpObj["receiptMan"] = "";
           tmpObj["outMan"] = "";
-          tmpObj["deliver"] = "";
-
-          tmpObj["client"] = "";
-          tmpObj["signer"] = "";
           tmpObj["outDate"] = "";
-
           tmpObj["notes"] = "";
           tmpObj["store"] = "";
           this.tableData.push(tmpObj);
@@ -377,6 +318,7 @@ export default {
           pagesize: this.pagesize,
         })
         .then((res) => {
+
           if (res.meta.state == 200) {
             this.drawerTableData = res.data;
             this.pagetotal = res.pagetotal;
@@ -408,54 +350,63 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.el-table td .cell {
+  padding: 2px;
+  .el-input {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>
 <style lang="scss" scoped>
 .table-container {
   height: 100%;
   background-color: #f0f2f5;
 
-  .el-input {
+  .el-card {
+    //el-card样式
     width: 100%;
-  }
-
-  .header {
     text-align: left;
-    .el-button {
+
+    .header .el-button {
       float: right;
       margin-top: -5px;
     }
-  }
-  //el-card样式
-  .text {
-    font-size: 14px;
-  }
 
-  .item {
-    margin-bottom: 18px;
-  }
-
-  .box-card {
-    width: 100%;
-  }
-
-  .data-table {
-    width: 100%;
-    padding: 10px;
-    background-color: #fff;
-
-    .table {
-      width: 100%;
+    //el-card样式
+    .text {
       font-size: 14px;
-      border: none;
+    }
 
-      .el-input {
+    .item {
+      margin-bottom: 18px;
+    }
+
+    .box-card {
+      width: 100%;
+    }
+
+    .data-table {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #fff;
+
+      .table {
         width: 100%;
-        height: 100%;
-      }
-
-      td {
+        font-size: 14px;
         border: none;
-        // border: 1px solid rgb(207, 206, 206);
-        padding: 0px;
+
+        .el-input {
+          width: 100%;
+          height: 100%;
+        }
+
+        td {
+          border: none;
+          padding: 0px;
+        }
       }
     }
   }

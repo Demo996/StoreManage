@@ -15,4 +15,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+.welcome img {
+        margin-top: 10%;
+}
 </style>

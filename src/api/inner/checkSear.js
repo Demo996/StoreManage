@@ -1,12 +1,12 @@
 import axios from 'axios'
 import qs from 'qs'
 const post = params => {
-    return axios.post("http://192.168.0.14:80/storege/innerPart/checkSearMain.php",
+    return axios.post("storege/innerPart/checkSearMain.php",
         qs.stringify(params)).then(res => res.data)
 }
 
 const postChild = params => {
-    return axios.post("http://192.168.0.14:80/storege/innerPart/checkSearDetail.php",
+    return axios.post("storege/innerPart/checkSearDetail.php",
         qs.stringify(params)).then(res => res.data)
 }
 

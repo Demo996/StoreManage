@@ -7,20 +7,12 @@
           <el-row class="search-form" :gutter="20" style="margin-bottom: 10px">
             <el-col :span="8"
               ><div class="grid-content bg-purple">
-                <el-input
-                  placeholder="请输入编码"
-                  v-model.trim="filterCode"
-                  clearable
-                >
+                <el-input placeholder="请输入编码" v-model.trim="filterCode">
                 </el-input></div
             ></el-col>
             <el-col :span="8"
               ><div class="grid-content bg-purple">
-                <el-input
-                  placeholder="请输入类型"
-                  v-model.trim="filterType"
-                  clearable
-                >
+                <el-input placeholder="请输入类型" v-model.trim="filterType">
                   <el-button
                     slot="append"
                     icon="el-icon-search"
@@ -43,11 +35,7 @@
           <el-row class="search-form" :gutter="20">
             <el-col :span="8"
               ><div class="grid-content bg-purple">
-                <el-input
-                  placeholder="请输入名称"
-                  v-model.trim="filterName"
-                  clearable
-                >
+                <el-input placeholder="请输入名称" v-model.trim="filterName">
                   <el-button
                     slot="append"
                     icon="el-icon-search"
@@ -60,7 +48,6 @@
                 <el-input
                   placeholder="请输入规格型号"
                   v-model.trim="filterModel"
-                  clearable
                 >
                   <el-button
                     slot="append"
@@ -74,7 +61,6 @@
                 <el-input
                   placeholder="颜色形状"
                   v-model.trim="filterColorShape"
-                  clearable
                 >
                   <el-button
                     slot="append"
@@ -92,9 +78,15 @@
             size="medium"
             style="width: 100%"
             max-height="700"
+            :row-key="bindRowKeys"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column
+              type="selection"
+              width="55"
+              :reserve-selection="true"
+            >
+            </el-table-column>
             <el-table-column label="编码" prop="编码" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="类型" prop="类型" show-overflow-tooltip>
@@ -125,7 +117,7 @@
       </el-card>
     </el-drawer>
     <!-- /自动填写弹框 -->
-    <el-row>
+    <el-row style="text-align: right; padding: 3px">
       <el-button type="primary" class="operate-btn el-icon-plus" @click="addRow"
         >新增</el-button
       >
@@ -148,18 +140,12 @@
                   id="hinp1"
                   v-model.trim="tableNumber"
                   autocomplete="off"
-                  clearable
                 >
                 </el-input>
               </td>
               <td>
                 <label for="hinp2">申报人：</label>
-                <el-input
-                  id="hinp2"
-                  v-model.trim="applyMan"
-                  autocomplete="off"
-                  clearable
-                >
+                <el-input id="hinp2" v-model.trim="applyMan" autocomplete="off">
                 </el-input>
               </td>
               <td>
@@ -168,7 +154,6 @@
                   id="hinp3"
                   v-model.trim="purchaser"
                   autocomplete="off"
-                  clearable
                 >
                 </el-input>
               </td>
@@ -188,22 +173,12 @@
             <tr>
               <td>
                 <label for="hinp5">应付金额：</label>
-                <el-input
-                  id="hinp5"
-                  v-model.trim="payMoney"
-                  autocomplete="off"
-                  clearable
-                >
+                <el-input id="hinp5" v-model.trim="payMoney" autocomplete="off">
                 </el-input>
               </td>
               <td>
                 <label for="hinp6">实付金额：</label>
-                <el-input
-                  id="hinp6"
-                  v-model.trim="payMoney"
-                  autocomplete="off"
-                  clearable
-                >
+                <el-input id="hinp6" v-model.trim="payMoney" autocomplete="off">
                 </el-input>
               </td>
               <td>
@@ -227,7 +202,6 @@
                   class="noteinp"
                   v-model.trim="note"
                   autocomplete="off"
-                  clearable
                 >
                 </el-input>
               </td>
@@ -245,10 +219,7 @@
           >
             <el-table-column fixed label="产品/设备编号" width="140">
               <template scope="scope">
-                <el-input
-                  v-model="scope.row.devCode"
-                  @click.native="showDrawer"
-                ></el-input>
+                <el-input v-model="scope.row.devCode"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="产品/设备名称" width="140">
@@ -367,7 +338,7 @@
 </template>
 
 <script>
-import codeApi from "@/api/coding/coding";
+import { codingApi } from "@/api";
 import { purchaseApi } from "@/api";
 export default {
   data: function () {
@@ -406,25 +377,7 @@ export default {
           text: "增值税专票",
         },
       ],
-      tableData: [
-        {
-          devCode: "",
-          devName: "",
-          type: "",
-          model: "",
-          size: "",
-          colorShape: "",
-          unit: "",
-          number: 0,
-          price: 0,
-          freight: 0,
-          total: 0,
-          billType: "",
-          purchaseDate: "",
-          purpose: "",
-          notes: "",
-        },
-      ],
+      tableData: [],
       drawer: false, //显示抽屉、提示编码
       drawerTableData: [],
       multipleSelection: [],
@@ -464,24 +417,8 @@ export default {
       this.totalMoney();
     },
     addRow() {
-      let singleObj = {
-        devCode: "",
-        devName: "",
-        type: "",
-        model: "",
-        size: "",
-        colorShape: "",
-        unit: "",
-        number: 0,
-        price: 0,
-        freight: 0,
-        total: 0,
-        billType: "",
-        purchaseDate: "",
-        purpose: "",
-        notes: "",
-      };
-      this.tableData.push(singleObj);
+      this.drawer = true;
+      this.initData();
     },
     saveForm() {
       let mainMsg = {
@@ -509,27 +446,36 @@ export default {
         }
       }
 
-      let operator = localStorage.getItem("operator");
+      let operator = localStorage.getItem("uname");
       let sendMsg = {
         operator: operator,
         main: mainMsg,
-        detail: this.rowContent,
+        detail: this.tableData,
       };
+      console.log(sendMsg);
 
       purchaseApi.post(sendMsg).then((res) => {
         if (res.meta.state == 200) {
           this.$message.success("提交成功");
+          this.tableData = [];
+          this.totalNum = 0;
+          this.tableNumber = "";
+          this.applyMan = "";
+          this.purchaser = "";
+          this.currDept = "";
+          this.applyDate = "";
+          this.payMoney = 0;
+          this.note = "";
         } else {
           this.$message.error(res.meta.msg);
         }
       });
     },
-    showDrawer() {
-      this.drawer = true;
-      this.initData();
+    bindRowKeys(row) {
+      return row["编码"];
     },
     initData() {
-      codeApi
+      codingApi
         .filterCode({
           filterCode: this.filterCode,
           filterType: this.filterType,
@@ -551,55 +497,46 @@ export default {
     },
     // 切换每页条数
     handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
       this.pagesize = val;
       this.initData();
     },
     // 切换分页
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(this.multipleSelection);
     },
     codeSure() {
       if (this.multipleSelection) {
-        let tmpObj = {
-          devCode: "",
-          devName: "",
-          type: "",
-          model: "",
-          size: "",
-          colorShape: "",
-          unit: "",
-          number: 0,
-          price: 0,
-          freight: 0,
-          total: 0,
-          billType: "",
-          purchaseDate: "",
-          purpose: "",
-          notes: "",
-        };
         let tmpArr = this.multipleSelection;
         tmpArr.forEach((element) => {
+          let tmpObj = {};
           tmpObj["devCode"] = element["编码"];
           tmpObj["devName"] = element["名称"];
           tmpObj["type"] = element["类型"];
           tmpObj["model"] = element["规格型号"];
           tmpObj["size"] = element["规格型号"];
           tmpObj["colorShape"] = element["颜色形状"];
+          tmpObj["unit"] = "";
+          tmpObj["number"] = "";
+          tmpObj["price"] = 0;
+          tmpObj["freight"] = 0;
+          tmpObj["total"] = 0;
+          tmpObj["billType"] = "";
+          tmpObj["purchaseDate"] = "";
+          tmpObj["purpose"] = "";
+          tmpObj["notes"] = "";
           this.tableData.push(tmpObj);
         });
-        console.log(this.tableData);
         this.multipleSelection = [];
       }
+      this.drawer = false;
     },
     codeCancle() {
       this.drawer = false;
+      this.$refs.multipleTable.clearSelection();
     },
   },
   watch: {
@@ -609,12 +546,6 @@ export default {
   },
 };
 </script>
-
-<style>
-.el-drawer {
-  width: 40% !important;
-}
-</style>
 
 <style lang="scss" scoped>
 .table-container {
@@ -699,14 +630,6 @@ export default {
         padding: 0px;
       }
     }
-  }
-
-  .operate-btn {
-    float: left;
-    margin: 10px 5px;
-    padding: 0 10px;
-    height: 35px;
-    line-height: 35px;
   }
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <el-card class="box-card">
-    <div slot="header" class="clearfix"></div>
     <el-dialog
       title="操作界面"
       :visible.sync="dialogVisible"
@@ -193,6 +192,7 @@
         <el-table-column label="操作" prop="操作">
           <template scope="scope">
             <el-button
+            size="small"
               type="primary"
               icon="el-icon-edit"
               circle
@@ -312,7 +312,6 @@ export default {
       let d = new Date();
       let n = d.toISOString();
       let currDate = n.split("T")[0];
-      // console.log(this.backType);
 
       purchaseBackApi
         .postEdit({
@@ -374,13 +373,11 @@ export default {
 
     // 切换每页条数
     handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
       this.pagesize = val;
       this.initData();
     },
     // 切换分页
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.initData();
     },
@@ -401,11 +398,6 @@ export default {
     .el-input {
       width: 60%;
     }
-    .el-switch {
-      display: inline-block;
-      margin-right: 10px;
-    }
-
     .note {
       width: 420px;
     }

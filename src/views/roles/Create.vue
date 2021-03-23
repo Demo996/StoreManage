@@ -5,7 +5,7 @@
       <!-- 标题 -->
       <div slot="header" class="clearfix header">
         <span>角色创建</span>
-        <el-button type="primary" round @click="jump('/roles')">返回</el-button>
+        <el-button type="primary" round @click="jump('/roles/index')">返回</el-button>
       </div>
 
       <!-- 表单 -->
@@ -48,11 +48,11 @@
 </template>
 <script>
 // 导入接口
-import rolesApi from "@/api/roles/roles";
+import { rolesApi } from "@/api";
 
 // 导出组件数据
 export default {
-  data() {
+  data () {
     return {
       // loading
       loading: false,
@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     // 提交
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // loading
@@ -103,7 +103,7 @@ export default {
       });
     },
     // 重置
-    resetForm(formName) {
+    resetForm (formName) {
       this.$refs[formName].resetFields();
     },
   },

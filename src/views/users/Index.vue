@@ -5,7 +5,7 @@
         <!-- 标题 -->
         <div slot="header" class="clearfix header">
             <span>用户列表</span>
-            <el-button type="primary" round @click="jump('/users/create')">创建</el-button>
+            <el-button type="primary" round @click="jump('/user/create')">创建</el-button>
         </div>
         <!-- /标题 --> 
 
@@ -161,8 +161,6 @@ export default {
       },
       // 确定分配
       handleAssign() {
-          console.log(this.ruleForm.user_id);
-          console.log(this.ruleForm.role_pid);
             usersApi.assign({
                 user_id: this.ruleForm.user_id,
                 role_id: this.ruleForm.role_id

@@ -93,16 +93,16 @@
 </template>
 <script>
 // 导入接口
-import rolesApi from "@/api/roles/roles";
+import { rolesApi } from "@/api";
 
 // 导出组件数据
 export default {
-  created() {
+  created () {
     this.initData();
   },
   methods: {
     // 编辑
-    handleAssign(row) {
+    handleAssign (row) {
       // save role_id
       this.formEditData.role_name = row.role_name;
 
@@ -128,7 +128,7 @@ export default {
       this.dialogFormVisible = true;
     },
     // 改变状态
-    handleAuths() {
+    handleAuths () {
       let tmpIds = [];
       let tmpIdsSon = [];
       if (this.$refs.tree.getCheckedNodes()) {
@@ -172,7 +172,7 @@ export default {
           }
         });
     },
-    edit(row) {
+    edit (row) {
       this.dialogVisible = true;
       this.editRow = {
         roleId: row.role_id,
@@ -180,7 +180,7 @@ export default {
         roleDesc: row.role_desc,
       };
     },
-    sureEdit(edit) {
+    sureEdit (edit) {
       rolesApi
         .edit({
           edit,
@@ -198,7 +198,7 @@ export default {
           }
         });
     },
-    del(row) {
+    del (row) {
       this.$confirm(
         "此操作将删除此角色以及对应的用户, 请确定是否继续?",
         "提示",
@@ -223,7 +223,7 @@ export default {
         });
     },
     // 初始化数据
-    initData() {
+    initData () {
       //   loading
       this.loading = true;
       //   data
@@ -237,15 +237,15 @@ export default {
         }
       });
     },
-    handleClose(done) {
+    handleClose (done) {
       this.$confirm("确认关闭？")
         .then((_) => {
           done();
         })
-        .catch((_) => {});
+        .catch((_) => { });
     },
   },
-  data() {
+  data () {
     return {
       // 默认角色权限选中
       defaultAuthIds: [],

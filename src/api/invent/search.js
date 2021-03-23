@@ -2,16 +2,21 @@ import axios from 'axios'
 import qs from 'qs'
 
 const inventPost = params => {
-    return axios.post("http://192.168.0.14:80/storege/inventPart/invent.php",
+    return axios.post("storege/inventPart/invent.php",
         qs.stringify(params)).then(res => res.data)
 }
 
 const alarmPost = params => {
-    return axios.post("http://192.168.0.14:80/storege/inventPart/alarm.php",
+    return axios.post("storege/inventPart/alarm.php",
+        qs.stringify(params)).then(res => res.data)
+}
+const filter = params => {
+    return axios.post("storege/inventPart/filter.php",
         qs.stringify(params)).then(res => res.data)
 }
 
 export default {
     inventPost,
-    alarmPost
+    alarmPost,
+    filter
 }

@@ -17,12 +17,12 @@ axios.interceptors.request.use(function(config) {
 
     // 1. 验证
     let token = localStorage.getItem('token')
+        // config.headers['token'] = token
     config.headers['token'] = token
         // 2. 编码
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         // 3. loading  TODO. 扫码不需要loading
     if (config.url != 'qr/check.php') showLoading()
-    console.log(config);
     return config;
 }, function(error) {
     // 对请求错误做些什么
@@ -33,35 +33,11 @@ axios.interceptors.request.use(function(config) {
 axios.interceptors.response.use(function(response) {
     // 1. 隐藏loading
     hideLoading()
-        // 2. 提示
-        // if (response.data.meta.msg == 'TOKEN有误') {
-        //     Message({
-        //         showClose: true,
-        //         message: "糟糕TOKEN已过期请重新登录",
-        //         type: "error"
-        //     });
-        //     return router.push({ path: '/login' })
-        // }
-        // 对响应数据做点什么
     return response;
 }, function(error) {
     // 对响应错误做点什么
     return Promise.reject(error);
 });
-
-// 4. 导出
-// axios.get('请求路径', {headers: {}, params: {键:值,...,键:值}})
-// axios.delete('请求路径', {headers: {}, params: {键:值,...,键:值}})
-// axios.post('请求路径', 数据对象)
-// axios.put('请求路径', 数据对象)
-// -----------------------------
-// axios.post('请求路径', qs.stringify(数据对象))
-// axios.put('请求路径', qs.stringify(数据对象))
-
-import goodsCateApi from './goods/cate'
-import goodsTypeApi from './goods/type'
-import goodsAttrApi from './goods/attr'
-import goodsApi from './goods/index'
 
 import purchaseApi from './inner/purchase'
 import innerApi from './inner/checkIn'
@@ -77,15 +53,12 @@ import outerReturnApi from './outer/return'
 import outerStatApi from './outer/statistic'
 
 import inventApi from './invent/search'
-
-import loadApi from './load'
+import codingApi from './coding/coding'
+import rolesApi from './roles/roles'
+import usersApi from './user/user'
+import loadApi from './load/load'
 
 export {
-    goodsCateApi,
-    goodsTypeApi,
-    goodsAttrApi,
-    goodsApi,
-
     purchaseApi,
     innerApi,
     checkSearApi,
@@ -100,5 +73,8 @@ export {
     outerStatApi,
 
     inventApi,
+    codingApi,
+    rolesApi,
+    usersApi,
     loadApi
 }
