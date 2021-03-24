@@ -238,9 +238,9 @@
         <el-table-column label="类型" prop="类型" show-overflow-tooltip> </el-table-column>
         <el-table-column label="型号" prop="型号" show-overflow-tooltip> </el-table-column>
         <el-table-column label="规格" prop="规格" show-overflow-tooltip> </el-table-column>
-        <el-table-column label="颜色/形状" prop="颜色/形状"> </el-table-column>
-        <el-table-column label="规格" prop="规格"> </el-table-column>
-        <el-table-column label="单位" prop="单位"> </el-table-column>
+        <el-table-column label="颜色/形状" prop="颜色/形状" show-overflow-tooltip> </el-table-column>
+        <el-table-column label="规格" prop="规格" show-overflow-tooltip> </el-table-column>
+        <el-table-column label="单位" prop="单位" show-overflow-tooltip> </el-table-column>
         <el-table-column label="数量" prop="数量" width="60"> </el-table-column>
         <el-table-column label="单价" prop="单价" width="60"> </el-table-column>
         <el-table-column label="运费" prop="运费" width="60"> </el-table-column>
@@ -260,7 +260,7 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="采购日期" prop="采购日期"> </el-table-column>
+        <el-table-column label="采购日期" prop="采购日期" show-overflow-tooltip> </el-table-column>
         <el-table-column label="用途" prop="用途" show-overflow-tooltip> </el-table-column>
         <el-table-column label="备注" prop="备注" show-overflow-tooltip> </el-table-column>
         <el-table-column>

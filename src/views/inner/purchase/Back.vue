@@ -332,7 +332,7 @@ export default {
             this.backNum = 0;
             this.backPrice = 0.0;
             this.note = "";
-            let remainMoney = parseInt(this.backNum) * parseInt(operateArr["单价"]);
+            let remainMoney = parseInt(this.backNum) * parseInt(this.operateArr["单价"]);
             this.operateArr["数量"] = maxNum - this.backNum;
             this.operateArr["合计金额"] = remainMoney;
             this.dialogVisible = false;
@@ -351,7 +351,7 @@ export default {
         .catch((_) => {});
     },
     handle(row) {
-      this.operateArr = row;
+      this.operateArr= row;
       this.maxNum = parseInt(row["数量"]);
       this.dialogVisible = true;
     },

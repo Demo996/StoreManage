@@ -164,7 +164,7 @@
                     v-for="item in deptArr"
                     :key="item.id"
                     :label="item.label"
-                    :value="item.id"
+                    :value="item.label"
                   >
                   </el-option>
                 </el-select>
@@ -217,37 +217,37 @@
             style="width: 100%"
             max-height="250"
           >
-            <el-table-column fixed label="产品/设备编号" width="140">
+            <el-table-column fixed label="产品/设备编号" width="140" show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.devCode"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="产品/设备名称" width="140">
+            <el-table-column label="产品/设备名称"  show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.devName"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="类型" width="100">
+            <el-table-column label="类型"  show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.type"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="型号" width="100">
+            <el-table-column label="型号" show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.model"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="规格" width="100">
+            <el-table-column label="规格" show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.size"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="颜色/形状" :resizable="true">
+            <el-table-column label="颜色/形状" show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.colorShape"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="单位" :resizable="true">
+            <el-table-column label="单位" show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.unit"></el-input>
               </template>
@@ -297,7 +297,7 @@
                 </el-select>
               </template>
             </el-table-column>
-            <el-table-column label="采购日期" width="160">
+            <el-table-column label="采购日期" width="160" show-overflow-tooltip>
               <template scope="scope">
                 <div class="block">
                   <el-date-picker
@@ -310,17 +310,17 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="用途" :resizable="true">
+            <el-table-column label="用途"  show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.purpose"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="备注" :resizable="true">
+            <el-table-column label="备注" show-overflow-tooltip>
               <template scope="scope">
                 <el-input v-model="scope.row.notes"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="操作" :resizable="true">
+            <el-table-column label="操作" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-button
                   type="text"
@@ -454,22 +454,22 @@ export default {
       };
       console.log(sendMsg);
 
-      purchaseApi.post(sendMsg).then((res) => {
-        if (res.meta.state == 200) {
-          this.$message.success("提交成功");
-          this.tableData = [];
-          this.totalNum = 0;
-          this.tableNumber = "";
-          this.applyMan = "";
-          this.purchaser = "";
-          this.currDept = "";
-          this.applyDate = "";
-          this.payMoney = 0;
-          this.note = "";
-        } else {
-          this.$message.error(res.meta.msg);
-        }
-      });
+      // purchaseApi.post(sendMsg).then((res) => {
+      //   if (res.meta.state == 200) {
+      //     this.$message.success("提交成功");
+      //     this.tableData = [];
+      //     this.totalNum = 0;
+      //     this.tableNumber = "";
+      //     this.applyMan = "";
+      //     this.purchaser = "";
+      //     this.currDept = "";
+      //     this.applyDate = "";
+      //     this.payMoney = 0;
+      //     this.note = "";
+      //   } else {
+      //     this.$message.error(res.meta.msg);
+      //   }
+      // });
     },
     bindRowKeys(row) {
       return row["编码"];
